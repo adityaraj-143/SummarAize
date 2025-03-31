@@ -3,20 +3,12 @@
 import {
   SignedIn,
   SignedOut,
-  SignInButton,
   SignUpButton,
   UserButton,
-  useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
 
 const NavBar = () => {
-  const { user } = useUser();
-  let image;
-
-  if (user) {
-    image = user.imageUrl;
-  }
 
   return (
     <>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "./ui/button";
 import { Sparkles } from "lucide-react";
 import { Badge } from "./ui/badge";
 
@@ -14,7 +13,7 @@ const HeroSection = () => {
         seconds. Save time, stay informed!
       </p>
       <div className="flex mt-4">
-        <div className="relative p-[1px] overflow-hidden rounded-full bg-linear-to-r from-[#7aeef7]  to-[#006786] animate-gradient-x group">
+        <div className="relative p-[2px] overflow-hidden rounded-full bg-linear-to-r from-[#7aeef7]  to-[#006786] animate-gradient-x group">
           <Badge variant={"secondary"} className="relative px-6 py-2 text-base font-medium bg-black/[0.96] group-hover:bg-black/[0.55] rounded-full transition-colors">
             <Sparkles style={{width: "24px", height: "24px"}} className="mr-2 text-[#3DC2EC] animate-pulse" />
             <p className="text-white">Powered By AI</p>

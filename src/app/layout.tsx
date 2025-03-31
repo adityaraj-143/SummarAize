@@ -4,12 +4,8 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import {
   ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
 } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 const fonstSans = FontSans({
   variable: "--font-sans",
@@ -36,6 +32,7 @@ export default function RootLayout({
             <NavBar />
           </div>
           {children}
+          <Toaster/>
         </body>
       </html>
     </ClerkProvider>
