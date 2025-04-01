@@ -6,6 +6,7 @@ import {
   ClerkProvider,
 } from "@clerk/nextjs";
 import { Toaster } from "sonner";
+import {dark} from "@clerk/themes"
 
 const fonstSans = FontSans({
   variable: "--font-sans",
@@ -25,7 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={{
+      baseTheme: dark
+    }}>
       <html lang="en">
         <body className={`${fonstSans.variable} bg-black/[0.96] antialiased`}>
           <div className="w-full relative flex items-center justify-center mt-5">

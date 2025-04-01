@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.10",
+    "@clerk/themes": "^2.2.26",
     "@radix-ui/react-navigation-menu": "^1.2.5",
     "@uploadthing/react": "^7.3.0",
     "class-variance-authority": "^0.7.1",
