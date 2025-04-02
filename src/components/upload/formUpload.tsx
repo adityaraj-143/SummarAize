@@ -67,8 +67,8 @@ const FormUpload = () => {
   };
 
   return (
-    <div className="mt-10 flex flex-col gap-5 w-full max-w-2xl mx-auto">
-      <h1 className="text-2xl text-white text-center">Upload Your PDF</h1>
+    <div className="mt-15 flex flex-col gap-5 w-full max-w-2xl mx-auto">
+      <h1 className="text-2xl mb-30 text-white text-center">Upload Your PDF</h1>
       <FormInput onSubmit={handleSubmit} />
     </div>
   );
