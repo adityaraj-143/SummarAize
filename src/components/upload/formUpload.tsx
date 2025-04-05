@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 import FormInput from "./formInput";
 import { useUploadThing } from "@/utils/uploadthing";
+import { generatePdfSummary } from "../../../actions/upload-action";
+import { FetchSummary } from "@/lib/gemini";
 
 const FormUpload = () => {
   const schema = z.object({
@@ -54,6 +56,8 @@ const FormUpload = () => {
 
     const resp = await startUpload([file]);
     if(!resp) {
+      console.log("abc");
+      
       toast.error("Something went wrong!", {
         description: "Please re-upload the file or use different file"
       })
@@ -63,6 +67,10 @@ const FormUpload = () => {
     toast.success("Processing PDF", {
       description: "Hang tight! Our Ai is reading through your PDF"
     })
+
+    const summary = await generatePdfSummary(resp);
+    console.log({summary})
+
 
   };
 
