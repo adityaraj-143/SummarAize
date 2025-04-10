@@ -1,23 +1,10 @@
 import { pdfSummaryPrompt } from "@/utils/Pompt";
-import { GoogleGenAI, Models } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function FetchSummary(pdfText: String) {
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   try {
-    const prompt = {
-      contents: [
-        {
-          role: "user",
-          parts: [
-            { text: pdfSummaryPrompt },
-            {
-              text: `Transform this document into an engaging, easy-to-read summary with contextually relevant emojis and proper markdown formatting\n\n ${pdfText}`,
-            },
-          ],
-        },
-      ],
-    };
 
     const result = await ai.models.generateContent({
       model: "gemini-2.0-flash",
@@ -50,3 +37,5 @@ export async function FetchSummary(pdfText: String) {
     throw error;
   }
 }
+
+
