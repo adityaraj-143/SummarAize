@@ -101,7 +101,7 @@ const FormUpload = () => {
         });
       }
 
-      router.push(`/summaries/$}`);
+      // router.push(`/summaries/${result.id}`);
     } catch (error) {
       setIsLoading(false);
       console.log("Error occured: ", error);
