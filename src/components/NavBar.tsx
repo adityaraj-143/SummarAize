@@ -4,6 +4,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { User, Plus, Sparkles } from "lucide-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 const Navbar = () => {
   const router = useRouter();
@@ -22,41 +24,49 @@ const Navbar = () => {
             >
               SummarAIze
             </h1>
-            {isDashboard && (
+            {isDashboard ? (
               <Badge
                 variant="secondary"
                 className="bg-primary/10 text-primary border-primary/20"
               >
                 Dashboard
               </Badge>
+            ) : (
+              <Badge
+                variant="secondary"
+                className="bg-primary/10 text-primary border-primary/20 animate-fade-in"
+              >
+                <Sparkles className="w-4 h-4 mr-1" />
+                Powered By AI
+              </Badge>
             )}
           </div>
 
-          <div className="flex items-center space-x-4">
-            <Badge className="bg-primary/10 py-2 text-primary border-primary/20 animate-fade-in">
-              <Sparkles className="w-4 h-4 mr-1" />
-              Powered By AI
-            </Badge>
-          </div>
-
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 ">
             {!isDashboard ? (
               <>
-                <Button
-                  variant="ghost"
-                  onClick={() => router.push("/dashboard")}
-                  className="hover:bg-primary/10"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-primary/20"
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  Sign In
-                </Button>
+                <SignedIn>
+                  <Button
+                    variant="ghost"
+                    onClick={() => router.push("/dashboard")}
+                    className="hover:bg-primary/80 cursor-pointer"
+                  >
+                    Dashboard
+                  </Button>
+                  <UserButton />
+                </SignedIn>
+                <SignedOut>
+                  <Link href={"/sign-up"}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-primary/20 cursor-pointer"
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+                </SignedOut>
               </>
             ) : (
               <>

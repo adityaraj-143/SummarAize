@@ -2,13 +2,11 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader} from '@/components/ui/card';
 import { FileText, Calendar, Search, Filter, Plus } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Badge } from "@/components/ui/badge";
-import Navbar from '@/components/NavBar';
 
 interface Summary {
   id: string;
