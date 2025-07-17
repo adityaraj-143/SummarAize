@@ -1,11 +1,9 @@
 "use server";
 
-import { getDbConnection } from "@/lib/db";
+import { getDbConnection } from "@/lib/db/db";
 import { FetchSummary } from "@/lib/gemini";
-import { extractPdftext } from "@/lib/langchain";
-import { formatFileName } from "@/utils/format-file";
+import { PDFPage } from "@/lib/langchain";
 import { revalidatePath } from "next/cache";
-import { ClientUploadedFileData } from "uploadthing/types";
 
 export interface PdfSummaryType {
   userId?: string;
@@ -16,24 +14,11 @@ export interface PdfSummaryType {
 }
 
 export async function generatePdfSummary(
-  uploadResponse:
-    | ClientUploadedFileData<{
-        uploadedBy: string;
-        file: string;
-      }>[]
-    | undefined
+  fileUrl: string,
+  fileName: string,
+  docs: PDFPage[]
 ) {
-  if (!uploadResponse) {
-    return {
-      success: false,
-      message: "file upload Failed",
-      data: null,
-    };
-  }
-
-  const pdfUrl = uploadResponse[0].ufsUrl;
-
-  if (!pdfUrl) {
+  if (!fileUrl) {
     return {
       success: false,
       message: "file upload Failed",
@@ -42,8 +27,7 @@ export async function generatePdfSummary(
   }
 
   try {
-    const pdfText = await extractPdftext(pdfUrl);
-    console.log(pdfText);
+    const pdfText = docs.map((doc) => doc.pageContent).join("\n");
     const summary = await FetchSummary(pdfText);
 
     if (!summary) {
@@ -53,8 +37,6 @@ export async function generatePdfSummary(
         data: null,
       };
     }
-
-    const fileName = formatFileName(uploadResponse[0].name);
 
     return {
       success: false,
@@ -79,10 +61,10 @@ async function savePdfSummary({
   summary,
   title,
   fileName,
-}: PdfSummaryType) {
+}: PdfSummaryType){
   try {
     const sql = await getDbConnection();
-    await sql`INSERT INTO pdf_summaries (
+    const result = await sql`INSERT INTO pdf_summaries (
             user_id,
             original_file_url,
             summary_text,
@@ -94,7 +76,10 @@ async function savePdfSummary({
             ${summary},
             ${title},
             ${fileName}
-        )`;
+        )
+        RETURNING id;
+        `;
+    return result;
   } catch (error) {
     console.error("Error saving the summary", error);
     throw error;
@@ -131,6 +116,7 @@ export async function saveSummaryAction({
         message: "Failed to save the PDF, please try again",
       };
     }
+    console.log("saveSummary: ", saveSummary);
   } catch (error) {
     return {
       success: false,

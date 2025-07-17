@@ -38,6 +38,32 @@ CREATE TABLE payments (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Enum for user/system roles
+DO $$ BEGIN
+    CREATE TYPE user_system_enum AS ENUM ('system', 'user');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+-- Chats table
+CREATE TABLE chats (
+    id SERIAL PRIMARY KEY,
+    pdf_name TEXT NOT NULL,
+    pdf_url TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_id VARCHAR(256) NOT NULL,
+    file_key TEXT NOT NULL
+);
+
+-- Messages table
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    chat_id INTEGER NOT NULL REFERENCES chats(id),
+    content TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    role user_system_enum NOT NULL
+);
+
 -- Create updated_at trigger function
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$

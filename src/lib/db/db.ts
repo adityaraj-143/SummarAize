@@ -1,7 +1,8 @@
 "use server"
 
-import { neon } from "@neondatabase/serverless";
+import { neon,neonConfig } from "@neondatabase/serverless";
 
+neonConfig.fetchConnectionCache = true
 let cachedSql: ReturnType<typeof neon> | null = null;
 
 export async function getDbConnection() {

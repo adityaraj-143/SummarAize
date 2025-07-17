@@ -37,5 +37,3 @@ export async function FetchSummary(pdfText: String) {
     throw error;
   }
 }
-
-

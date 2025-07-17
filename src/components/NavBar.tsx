@@ -1,46 +1,76 @@
 "use client";
 
-import {
-  SignedIn,
-  SignedOut,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
-import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { User, Plus } from "lucide-react";
 
-const NavBar = () => {
+const Navbar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isDashboard = pathname === "/dashboard";
 
   return (
-    <>
-      <div className="flex md:text-[16px] gap-7 md:gap-48 border-1 border-white/[0.2] text-white py-5 px-10 md:px-16 rounded-full justify-between items-center ">
-        <Link href={"/"}>
-          <h1 className="font-bold text-[18px]">
-            Summar<span className="text-[#3DC2EC]">AI</span>ze
-          </h1>
-        </Link>
-        <SignedIn>
-          <Link href={"/dashboard"}>
-            <p>Dashboard</p>
-          </Link>
-        </SignedIn>
-        <div>
-            <SignedIn>
-              <UserButton appearance={{
-                elements: {
-                  avatarBox: 'translate-y-1'
-                }
-              }}/>
-            </SignedIn>
-            <SignedOut>
-              <Link href={"/sign-up"}>
-                Sign Up
-              </Link>
-            </SignedOut>
-        </div>
-      </div>
+      <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <h1
+                className="text-2xl font-bold gradient-text cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => router.push("/")}
+              >
+                SummarAIze
+              </h1>
+              {isDashboard && (
+                <Badge
+                  variant="secondary"
+                  className="bg-primary/10 text-primary border-primary/20"
+                >
+                  Dashboard
+                </Badge>
+              )}
+            </div>
 
-    </>
+            <div className="flex items-center space-x-4">
+              {!isDashboard ? (
+                <>
+                  <Button
+                    variant="ghost"
+                    onClick={() => router.push("/dashboard")}
+                    className="hover:bg-primary/10"
+                  >
+                    Dashboard
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-primary/20"
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    Sign In
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="ghost"
+                    onClick={() => router.push("/")}
+                    className="hover:bg-primary/10"
+                  >
+                    Home
+                  </Button>
+                  <Button className="btn-primary">
+                    <Plus className="w-4 h-4 mr-2" />
+                    New Summary
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
   );
 };
 
-export default NavBar;
+export default Navbar;
