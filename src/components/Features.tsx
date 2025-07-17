@@ -1,47 +1,63 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, FileText, MessageCircle } from "lucide-react";
-
-const features = [
-  {
-    title: "AI-Powered Summaries",
-    description: "Upload your PDFs and get concise, accurate summaries instantly.",
-    icon: FileText,
-  },
-  {
-    title: "Flashcard Generation",
-    description: "Convert your summaries into interactive flashcards for better retention.",
-    icon: Sparkles,
-  },
-  {
-    title: "AI Q&A Assistance",
-    description: "Ask AI questions based on your summaries or flashcards for deeper understanding.",
-    icon: MessageCircle,
-  },
-];
+import {
+  Sparkles,
+  FileText,
+  MessageCircle,
+  BarChart3,
+  Clock,
+} from "lucide-react";
 
 export default function Features() {
   return (
-    <section className="mt-10 py-12 px-6 bg-transparent text-white">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-white">Our Features</h2>
-        <p className="mt-2 text-gray-400">Empowering you with AI-driven tools for better learning and efficiency.</p>
-      </div>
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-        {features.map((feature, index) => (
-          <Card 
-            key={index}
-            className="shadow-lg rounded-2xl p-6 bg-gray-900 border border-cyan-400 hover:bg-gray-800 transition duration-300 transform hover:scale-105 hover:shadow-cyan-400/50"
+    <div className="container mx-auto px-4 py-16">
+      <div className="text-center max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
+          <Card
+            className="card-gradient text-center animate-slide-up"
+            style={{ animationDelay: "0.6s" }}
           >
-            <CardHeader className="flex items-center space-x-4">
-              <feature.icon className="w-10 h-10 text-cyan-400" />
-              <CardTitle className="text-xl font-semibold text-white">{feature.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-300">{feature.description}</p>
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Clock className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Lightning Fast</h3>
+              <p className="text-muted-foreground text-sm">
+                Get comprehensive summaries in under 30 seconds
+              </p>
             </CardContent>
           </Card>
-        ))}
+
+          <Card
+            className="card-gradient text-center animate-slide-up"
+            style={{ animationDelay: "0.8s" }}
+          >
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">AI Powered</h3>
+              <p className="text-muted-foreground text-sm">
+                Advanced AI ensures accurate and contextual summaries
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card
+            className="card-gradient text-center animate-slide-up"
+            style={{ animationDelay: "1s" }}
+          >
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Smart Insights</h3>
+              <p className="text-muted-foreground text-sm">
+                Extract key insights and actionable information
+              </p>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,27 +1,24 @@
-import React from "react";
-import { Sparkles } from "lucide-react";
-import { Badge } from "./ui/badge";
+import { Badge } from "@/components/ui/badge"
+import { Sparkles } from "lucide-react"
 
 const HeroSection = () => {
   return (
-    <div className="text-white text-center flex flex-col items-center justify-center">
-      <h1 className="text-3xl md:text-7xl font-bold max-w-6xl">
-        Transform PDFs into Smart Summaries with AI!
-      </h1>
-      <p className="max-w-lg md:text-xl mt-4 text-center">
-        Upload your PDFs and let AI generate concise, accurate summaries in
-        seconds. Save time, stay informed!
-      </p>
-      <div className="flex mt-4">
-        <div className="relative p-[2px] overflow-hidden rounded-full bg-linear-to-r from-[#7aeef7]  to-[#006786] animate-gradient-x group">
-          <Badge variant={"secondary"} className="relative px-6 py-2 text-base font-medium bg-black/[0.96] group-hover:bg-black/[0.55] rounded-full transition-colors">
-            <Sparkles style={{width: "24px", height: "24px"}} className="mr-2 text-[#3DC2EC] animate-pulse" />
-            <p className="text-white">Powered By AI</p>
-          </Badge>
-        </div>
-      </div>
-    </div>
-  );
-};
+    <div className="text-center max-w-4xl mx-auto">
 
-export default HeroSection;
+      <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-slide-up">
+        Transform PDFs into Smart{" "}
+        <span className="gradient-text">Summaries</span>{" "}
+        with AI!
+      </h1>
+
+      <p
+        className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-slide-up"
+        style={{ animationDelay: "0.2s" }}
+      >
+        Upload your PDFs and let AI generate concise, accurate summaries in seconds. Save time, stay informed!
+      </p>
+    </div>
+  )
+}
+
+export default HeroSection
