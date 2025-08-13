@@ -12,8 +12,8 @@ interface Vector {
   values: number[];
   metadata: {
     text: string;
-    pageNumber: number
-  }
+    pageNumber: number;
+  };
 }
 
 let pc: Pinecone | null = null;
@@ -28,17 +28,26 @@ export const getPineconeClient = () => {
   return pc;
 };
 
-export const loadPdfIntoPinecone = async (pages: PDFPage[], fileUrl: string, fileKey: string) => {
-  const docs = await Promise.all(pages.map(prepareDoc));
-  // console.log("DOCS: ",docs);
+export const loadPdfIntoPinecone = async (
+  pages: PDFPage[],
+  fileKey: string
+) => {
+  try {
+    const docs = await Promise.all(pages.map(prepareDoc));
+    // console.log("DOCS: ",docs);
 
-  const allvectors = (await Promise.all(docs.map(vectoriseDocument))).flat();
-  // console.log("vectors: ",allvectors);
-  
-  const pc = getPineconeClient();
-  const pcIndex = pc.index("summaraize", process.env.PINECONE_HOST);
-  
-  await pcIndex.namespace (fileUrl).upsert(allvectors);  
+    const allvectors = (await Promise.all(docs.map(vectoriseDocument))).flat();
+    // console.log("vectors: ",allvectors);
+
+    const pc = getPineconeClient();
+    const pcIndex = pc.index("summaraize", process.env.PINECONE_HOST);
+
+    const result = await pcIndex.namespace(fileKey).upsert(allvectors);
+    console.log("RESULT:  ", result);
+  } catch (error) {
+    console.error("Error loading PDF into Pinecone:", error);
+    throw error;
+  }
 };
 
 async function vectoriseDocument(docs: Document[]) {

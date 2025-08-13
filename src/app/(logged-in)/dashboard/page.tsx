@@ -24,7 +24,7 @@ interface Summary {
 
   const fetchSummaries = useCallback(async () => {
     try {
-      const result = await axios.get('/api/get-summaries');
+      const result = await axios.get('/api/summaries');
       console.log("fetched summaries: ", result.data);
       setSummaries(result.data.data);
     } catch (error) {

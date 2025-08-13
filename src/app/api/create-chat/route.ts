@@ -1,19 +1,21 @@
-import { toast } from "sonner";
 import {
   generatePdfSummary,
-  saveSummaryAction,
+  saveToNeon,
 } from "../../../../actions/upload-action";
 import { extractPdftext } from "@/lib/langchain";
 import { loadPdfIntoPinecone } from "@/lib/pinecone";
 import { auth } from "@clerk/nextjs/server";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { userId } = await auth();
 
   if (!userId) {
-    return new Response(JSON.stringify({ success: false, message: "Unauthorized" }), {
-      status: 401,
-    });
+    return new Response(
+      JSON.stringify({ success: false, message: "Unauthorized" }),
+      {
+        status: 401,
+      }
+    );
   }
 
   const body = await req.json();
@@ -21,32 +23,40 @@ export async function POST(req: Request, res: Response) {
 
   const docs = await extractPdftext(fileUrl);
 
-  const [chat_id, summary] = await Promise.all([
-    loadPdfIntoPinecone(docs, fileUrl, fileKey),
+  const [summary] = await Promise.all([
     generatePdfSummary(fileName, fileUrl, docs),
+    loadPdfIntoPinecone(docs, fileKey),
   ]);
 
-  console.log({ summary });
-  console.log("done this part");
-
   const { data } = summary;
-  let result;
-  if (data && userId) {
-    // toast.success("We are saving your PDF!");
-    result = await saveSummaryAction({
+
+  if (data) {
+    const result = await saveToNeon({
       userId,
       fileUrl,
       summary: data.summary,
       title: data.title,
       fileName,
+      fileKey,
     });
-    // toast.success("Summary Generated", {
-    //   description: "Your PDF has been successfully summarized and saved",
-    // });
+
+    if (!result) {
+      return new Response(
+        JSON.stringify({ success: false, message: "Failed to save summary" }),
+        {
+          status: 500,
+        }
+      );
+    }
+
+    return Response.json(
+      { success: true, chat_id: result.chat_id, summary: data.summary },
+      { status: 200 }
+    );
   }
 
-  return Response.json({ success: true, chat_id, summary: data?.summary, result }, {
-    status: 200,
-  });
-
+  return new Response(
+    JSON.stringify({ success: false, message: "No summary returned" }),
+    { status: 500 }
+  );
 }

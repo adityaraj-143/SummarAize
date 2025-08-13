@@ -5,23 +5,24 @@ import { FetchSummary } from "@/lib/gemini";
 import { PDFPage } from "@/lib/langchain";
 import { revalidatePath } from "next/cache";
 
-export interface PdfSummaryType {
+export interface SaveActionType {
   userId?: string;
   fileUrl: string;
   summary: string;
   title: string;
   fileName: string;
+  fileKey: string;
 }
 
 export async function generatePdfSummary(
-  fileUrl: string,
   fileName: string,
+  fileUrl: string,
   docs: PDFPage[]
 ) {
   if (!fileUrl) {
     return {
       success: false,
-      message: "file upload Failed",
+      message: "File upload failed",
       data: null,
     };
   }
@@ -39,7 +40,7 @@ export async function generatePdfSummary(
     }
 
     return {
-      success: false,
+      success: true,
       message: "Summary created successfully",
       data: {
         summary,
@@ -49,50 +50,20 @@ export async function generatePdfSummary(
   } catch (error) {
     return {
       success: false,
-      message: "file upload Failed",
+      message: "File upload failed",
       data: null,
     };
   }
 }
 
-async function savePdfSummary({
+export async function saveToNeon({
   userId,
   fileUrl,
   summary,
   title,
   fileName,
-}: PdfSummaryType){
-  try {
-    const sql = await getDbConnection();
-    const result = await sql`INSERT INTO pdf_summaries (
-            user_id,
-            original_file_url,
-            summary_text,
-            title,
-            file_name
-        ) VALUES (
-            ${userId},
-            ${fileUrl},
-            ${summary},
-            ${title},
-            ${fileName}
-        )
-        RETURNING id;
-        `;
-    return result;
-  } catch (error) {
-    console.error("Error saving the summary", error);
-    throw error;
-  }
-}
-
-export async function saveSummaryAction({
-  userId,
-  fileUrl,
-  summary,
-  title,
-  fileName,
-}: PdfSummaryType) {
+  fileKey,
+}: SaveActionType) {
   if (!userId) {
     return {
       success: false,
@@ -100,35 +71,74 @@ export async function saveSummaryAction({
     };
   }
 
-  let saveSummary: any;
-
   try {
-    saveSummary = await savePdfSummary({
-      userId,
-      fileUrl,
-      summary,
-      title,
-      fileName,
-    });
-    if (!saveSummary) {
+    const sql = await getDbConnection();
+    
+    // Save PDF summary and assert return type
+    const summaryResult = await sql`
+      INSERT INTO pdf_summaries (
+        user_id,
+        original_file_url,
+        summary_text,
+        title,
+        file_name
+      ) VALUES (
+        ${userId},
+        ${fileUrl},
+        ${summary},
+        ${title},
+        ${fileName}
+      )
+      RETURNING id;
+    ` as { id: number }[];
+
+    const summaryId = summaryResult[0]?.id;
+    console.log("summaryId: ", summaryId);
+
+    if (!summaryId) {
       return {
         success: false,
-        message: "Failed to save the PDF, please try again",
+        message: "Failed to save PDF summary",
       };
     }
-    console.log("saveSummary: ", saveSummary);
+
+    // Save chat info and link to summary, assert return type
+    const chatResult = await sql`
+      INSERT INTO chats (
+        user_id,
+        pdf_url,
+        pdf_name,
+        file_key,
+        summary_id
+      ) VALUES (
+        ${userId},
+        ${fileUrl},
+        ${fileName},
+        ${fileKey},
+        ${summaryId}
+      )
+      RETURNING id;
+    ` as { id: number }[];
+
+    console.log("chatResult: ", chatResult);
+    if (!chatResult[0]?.id) {
+      return {
+        success: false,
+        message: "Failed to save chat info",
+      };
+    }
+
+    return {
+      success: true,
+      message: "PDF summary and chat info saved successfully",
+      chat_id: chatResult[0].id,
+    };
   } catch (error) {
+    console.error("Error saving summary and chat info", error);
     return {
       success: false,
       message:
-        error instanceof Error ? error.message : "Error saving PDF summary",
+        error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
-
-  revalidatePath(`/summaries/${saveSummary.id}`);
-
-  return {
-    success: true,
-    message: "PDF summary saved successfully",
-  };
 }
