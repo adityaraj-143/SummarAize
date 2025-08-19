@@ -1,49 +1,26 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Send, MessageSquare } from 'lucide-react';
+import { useChat } from '@ai-sdk/react';
 
-// Define the type for the props
 interface ChatSideBarProps {
   chatWidth: number;
 }
 
-// Define the type for a single message
-interface Message {
-  id: string;
-  content: string;
-  isUser: boolean;
-  timestamp: string;
-}
-
 const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth }) => {
-  // Chat-specific state is now located here
+  const { messages, sendMessage, status } = useChat({});
   const [newMessage, setNewMessage] = useState('');
-  const [messages] = useState<Message[]>([
-    {
-      id: '1',
-      content: 'which problem statement is related to skills',
-      isUser: true,
-      timestamp: '20:13',
-    },
-    {
-      id: '2',
-      content:
-        "A problem statement related to skills could be: 'How can we improve the job readiness of recent graduates by developing a program that enhances their technical and soft skills?'",
-      isUser: false,
-      timestamp: '20:13',
-    },
-  ]);
 
-  // Logic for sending a message is now self-contained
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      // Logic to add the new message to the `messages` array would go here
-      console.log('Sending message:', newMessage);
-      setNewMessage('');
-    }
+  const handleSend = () => {
+    const text = newMessage.trim();
+    if (!text || status !== 'ready') return;
+    sendMessage({ text });
+    setNewMessage('');
   };
 
   return (
@@ -70,20 +47,27 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth }) => {
             <div
               key={message.id}
               className={`flex ${
-                message.isUser ? 'justify-end' : 'justify-start'
+                message.role === 'user' ? 'justify-end' : 'justify-start'
               }`}
             >
               <div
                 className={`max-w-[80%] rounded-lg px-3 py-2 ${
-                  message.isUser
+                  message.role === 'user'
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-foreground'
                 }`}
               >
-                <p className='text-sm'>{message.content}</p>
-                <span className='text-xs opacity-70 mt-1 block text-right'>
-                  {message.timestamp}
-                </span>
+                {message.parts.map((part, idx) => {
+                  if (part.type === 'text') {
+                    return (
+                      <p key={idx} className='text-sm'>
+                        {part.text}
+                      </p>
+                    );
+                  }
+                  // You can extend this to handle tool calls or custom parts later
+                  return null;
+                })}
               </div>
             </div>
           ))}
@@ -96,10 +80,11 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth }) => {
             placeholder='Whisper your query...'
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            disabled={status !== 'ready'}
             className='flex-1 bg-input border-border text-foreground'
           />
-          <Button onClick={handleSendMessage} className='btn-primary'>
+          <Button onClick={handleSend} disabled={status !== 'ready'}>
             <Send className='h-4 w-4' />
           </Button>
         </div>
