@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.7",
     "@ai-sdk/react": "^2.0.16",
     "@clerk/nextjs": "^6.12.10",
     "@clerk/themes": "^2.2.26",
     "@google/genai": "^0.7.0",
+    "@google/generative-ai": "^0.24.1",
     "@langchain/community": "^0.3.39",
     "@langchain/core": "^0.3.43",
     "@neondatabase/serverless": "^1.0.0",

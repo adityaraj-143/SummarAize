@@ -6,16 +6,15 @@ import { SummaryType } from '@/types/types';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  filteredSummaries: SummaryType[];
+  filteredSummaries: (SummaryType & { chat_id: number})[];
 };
 
 const SummaryCard = ({ filteredSummaries }: Props) => {
+  const router = useRouter();
 
-    const router = useRouter();
-
-    const handleRoute = (id: string) => {
-        router.push(`chat/${id}`)
-    }
+  const handleRoute = (id: number) => {
+    router.push(`chat/${id}`);
+  };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -62,18 +61,14 @@ const SummaryCard = ({ filteredSummaries }: Props) => {
             </p>
             <div className='flex items-center justify-end text-xs text-muted-foreground'>
               {/* <span>{summary.pages} pages</span> */}
-              <Button
-                variant='ghost'
-                size='sm'
-                className='h-8 text-primary'
-              >
+              <Button variant='ghost' size='sm' className='h-8 text-primary'>
                 View Summary
               </Button>
               <Button
                 variant='ghost'
                 size='sm'
                 className='h-8 text-primary'
-                onClick={() => handleRoute(summary.id)}
+                onClick={() => handleRoute(summary?.chat_id)}
               >
                 Open Chat
               </Button>

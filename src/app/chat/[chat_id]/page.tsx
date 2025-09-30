@@ -27,7 +27,7 @@ export default function ChatRoomClient() {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const result = await axios.get('/api/chats');
+        const result = await axios.get('/api/get-chatroom');
         setChats(result.data.data);
       } catch (err) {
         console.error('Error fetching chats:', err);
@@ -125,7 +125,7 @@ export default function ChatRoomClient() {
         onMouseDown={handleMouseDown}
       />
 
-      <ChatSideBar chatWidth={chatWidth} />
+      <ChatSideBar chatWidth={chatWidth} chatId={chatId} />
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { SummaryType } from '@/types/types';
 import { useQuery } from '@tanstack/react-query';
 import SummaryCard from '@/components/summaryCard';
 
-const fetchSummaries = async (): Promise<SummaryType[]> => {
+const fetchSummaries = async (): Promise<(SummaryType & { chat_id: number})[]> => {
   const result = await axios.get('/api/summaries');
   return result.data.data;
 };

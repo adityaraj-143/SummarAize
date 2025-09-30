@@ -1,10 +1,11 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY });
 
 export async function getEmbeddings(texts: string[]): Promise<number[][]> {
     try {
-        const contents = texts.map(text => ({
+        console.log(texts)
+        const contents = texts?.map(text => ({
             role: 'user',
             parts: [{ text: text.replace(/\n/g, '') }]
         }));

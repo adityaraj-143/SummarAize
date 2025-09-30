@@ -8,16 +8,18 @@ export async function GET(request: Request) {
     return Response.json({
       success: false,
       message: "Unauthorized",
-    });
+    }, { status: 401 });
   }
 
   try {
     const sql = await getDbConnection();
-    const records = await sql`SELECT *
-        FROM pdf_summaries
-        WHERE user_id = ${userId};
-        `;
-    console.log("records: ", records);
+
+    const records = await sql`
+      SELECT s.*, c.id AS chat_id
+      FROM pdf_summaries s
+      LEFT JOIN chats c ON c.summary_id = s.id
+      WHERE s.user_id = ${userId};
+    `;
 
     return Response.json({
       success: true,
@@ -26,5 +28,10 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error occured: ", error);
+    return Response.json({
+      success: false,
+      message: "Failed to fetch summaries",
+      error: (error as Error).message,
+    }, { status: 500 });
   }
 }
