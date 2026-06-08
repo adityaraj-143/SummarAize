@@ -1,5 +1,3 @@
-"use server";
-
 import { getDbConnection } from "@/lib/db/db";
 import { FetchSummary } from "@/lib/gemini";
 import { PDFPage } from "@/lib/langchain";

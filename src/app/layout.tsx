@@ -34,8 +34,6 @@ export default function RootLayout({
         <Providers>
           <body className={`${fonstSans.variable} bg-background antialiased`}>
               <NavBar />
-            {/* <div className="w-full relative flex items-center justify-center mt-5">
-            </div> */}
             {children}
             <Toaster />
           </body>
