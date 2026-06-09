@@ -59,7 +59,7 @@ AI assistant will not invent anything that is not drawn directly from the contex
 
     // --- 3. Generate the AI response ---
     const { text } = await generateText({
-      model: google('gemini-2.0-flash'), // Using an updated/valid model name
+      model: google('gemini-flash-lite-latest'), // Using the quota-safe model
       messages: [
         { role: 'system', content: systemPrompt },
         ...userMessages,

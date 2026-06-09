@@ -21,7 +21,7 @@ let pc: Pinecone | null = null;
 export const getPineconeClient = () => {
   if (!pc) {
     pc = new Pinecone({
-      apiKey: process.env.PINECONE_API!,
+      apiKey: process.env.PINECONE_API_KEY!,
     });
   }
 

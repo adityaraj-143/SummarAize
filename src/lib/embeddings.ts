@@ -1,32 +1,24 @@
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY });
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function getEmbeddings(texts: string[]): Promise<number[][]> {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+    const model = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
+    
     try {
-        console.log(texts)
-        const contents = texts?.map(text => ({
-            role: 'user',
-            parts: [{ text: text.replace(/\n/g, '') }]
+        const requests = texts.map(text => ({
+            content: { role: 'user', parts: [{ text: text.replace(/\n/g, '') }] }
         }));
 
-        const response = await ai.models.embedContent({
-            model: 'gemini-embedding-exp-03-07',
-            contents,
-            config: {
-                outputDimensionality: 2048
-            }
+        const response = await model.batchEmbedContents({
+            requests
         });
-
-        console.log("RESPONSE: ",response);
 
         if (!response.embeddings) {
             throw new Error("Embeddings not returned by the API");
         }
 
-        // Filter out undefined values safely
         return response.embeddings
-          .map(e => e.values)
+          .map(e => e.values.slice(0, 2048))
           .filter((v): v is number[] => Array.isArray(v));
 
     } catch (error) {
