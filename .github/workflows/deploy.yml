@@ -80,11 +80,14 @@ jobs:
           script: |
             set -e
             
-            # Login to ECR (EC2 instance must have an IAM role with ECR pull permissions)
+            # Login to ECR 
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
             
-            # Navigate to application directory
             cd ~/app
+
+            export IMAGE_TAG=$IMAGE_TAG
+            export ECR_REGISTRY=$ECR_REGISTRY
+            export ECR_REPOSITORY=$ECR_REPOSITORY
             
             # Pull the exact commit SHA image
             docker compose pull
