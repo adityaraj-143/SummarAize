@@ -3,8 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 
 
 export async function FetchSummary(pdfText: String) {
-  console.log("API_KEY is defined:", !!(process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY));
-  const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY });
+  const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY });
   try {
 
     const result = await ai.models.generateContent({
