@@ -1,9 +1,6 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 import { PDFPage } from "./langchain";
-import {
-  Document,
-  RecursiveCharacterTextSplitter,
-} from "@pinecone-database/doc-splitter";
+import { Document, RecursiveCharacterTextSplitter } from "@pinecone-database/doc-splitter";
 import { getEmbeddings } from "./embeddings";
 import md5 from "md5";
 
@@ -28,10 +25,7 @@ export const getPineconeClient = () => {
   return pc;
 };
 
-export const loadPdfIntoPinecone = async (
-  pages: PDFPage[],
-  fileKey: string
-) => {
+export const loadPdfIntoPinecone = async (pages: PDFPage[], fileKey: string) => {
   try {
     const docs = await Promise.all(pages.map(prepareDoc));
     // console.log("DOCS: ",docs);
@@ -78,7 +72,8 @@ export const trimToByteLength = (str: string, bytes: number) => {
 };
 
 async function prepareDoc(page: PDFPage) {
-  let { pageContent, metadata } = page;
+  let { pageContent } = page;
+  const metadata = page.metadata;
 
   pageContent = pageContent.replace(/\n/g, "");
 

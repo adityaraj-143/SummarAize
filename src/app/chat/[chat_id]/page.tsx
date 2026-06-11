@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'next/navigation';
-import { Chat } from '@/lib/db/schema';
-import { SummaryType } from '@/types/types';
-import CenterSection from '@/components/chat/centerSection';
-import ChatSideBar from '@/components/chat/chatSideBar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import { Chat } from "@/lib/db/schema";
+import { SummaryType } from "@/types/types";
+import CenterSection from "@/components/chat/centerSection";
+import ChatSideBar from "@/components/chat/chatSideBar";
 
 export default function ChatRoomClient() {
   const params = useParams<{ chat_id: string }>();
@@ -21,16 +21,16 @@ export default function ChatRoomClient() {
   const [chatWidth, setChatWidth] = useState(384); // 24rem in pixels
   const [isResizing, setIsResizing] = useState(false);
 
-  const [newRoomName, setNewRoomName] = useState('');
+  const [newRoomName, setNewRoomName] = useState("");
 
   // Fetch all chat rooms
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const result = await axios.get('/api/get-chatroom');
+        const result = await axios.get("/api/get-chatroom");
         setChats(result.data.data);
       } catch (err) {
-        console.error('Error fetching chats:', err);
+        console.error("Error fetching chats:", err);
       }
     };
     fetchChats();
@@ -53,13 +53,13 @@ export default function ChatRoomClient() {
       setIsLoadingSummary(true);
       setSummaryError(null);
       try {
-        const result = await axios.get('/api/pdf-summary', {
+        const result = await axios.get("/api/pdf-summary", {
           params: { summary_id: currentChat.summary_id },
         });
         setSummary(result.data.data[0]);
       } catch (err) {
-        console.error('Error fetching summary:', err);
-        setSummaryError('Failed to load summary. Please try again.');
+        console.error("Error fetching summary:", err);
+        setSummaryError("Failed to load summary. Please try again.");
       } finally {
         setIsLoadingSummary(false);
       }
@@ -88,25 +88,25 @@ export default function ChatRoomClient() {
 
   useEffect(() => {
     if (isResizing) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.body.style.cursor = 'col-resize';
-      document.body.style.userSelect = 'none';
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.body.style.cursor = "col-resize";
+      document.body.style.userSelect = "none";
     } else {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
     }
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isResizing]);
 
   return (
-    <div className='h-[calc(100vh-4rem)] flex bg-background'>
+    <div className="flex h-[calc(100vh-4rem)] bg-background">
       <CenterSection
         summary={summary}
         isLoadingSummary={isLoadingSummary}
@@ -119,8 +119,8 @@ export default function ChatRoomClient() {
 
       {/* Resizable Divider */}
       <div
-        className={`w-1 bg-border hover:bg-primary cursor-col-resize flex-shrink-0 ${
-          isResizing ? 'bg-primary' : ''
+        className={`flex-shrink-0 w-1 bg-border hover:bg-primary cursor-col-resize ${
+          isResizing ? "bg-primary" : ""
         }`}
         onMouseDown={handleMouseDown}
       />

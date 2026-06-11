@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   console.log("searchParams: ", searchParams);
 
-  const summary_id = (searchParams.get("summary_id"));
+  const summary_id = searchParams.get("summary_id");
   console.log("summary_id: ", summary_id);
   if (!summary_id) {
     console.log("Invalid or missing summary_id");
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
         `;
     console.log("summary in backend: ", summary);
 
-    if(!summary) {
+    if (!summary) {
       return Response.json({
         success: false,
         message: "Summary not found",

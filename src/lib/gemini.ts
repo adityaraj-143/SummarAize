@@ -1,11 +1,9 @@
 import { pdfSummaryPrompt } from "@/utils/Pompt";
 import { GoogleGenAI } from "@google/genai";
 
-
-export async function FetchSummary(pdfText: String) {
+export async function FetchSummary(pdfText: string) {
   const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY });
   try {
-
     const result = await ai.models.generateContent({
       model: "gemini-flash-lite-latest",
       contents: [
@@ -29,8 +27,8 @@ export async function FetchSummary(pdfText: String) {
 
     console.log(result.text);
     return result.text;
-  } catch (error: any) {
-    if (error.status === 429) {
+  } catch (error: unknown) {
+    if ((error as { status?: number }).status === 429) {
       throw new Error("Rate limit exceeded");
     }
     console.error("Gemini API Error: ", error);

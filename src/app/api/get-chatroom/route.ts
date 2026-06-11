@@ -1,7 +1,7 @@
 import { getDbConnection } from "@/lib/db/db";
 import { auth } from "@clerk/nextjs/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   const { userId } = await auth();
 
   if (!userId) {
@@ -18,8 +18,6 @@ export async function GET(request: Request) {
         WHERE user_id = ${userId};
         `;
     console.log("chats: ", chats);
-
-    
 
     return Response.json({
       success: true,

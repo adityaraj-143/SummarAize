@@ -1,23 +1,16 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-  FileText,
-  Plus,
-  Upload,
-  FileSearch,
-  Menu,
-  File,
-} from 'lucide-react';
-import { Chat } from '@/lib/db/schema';
-import { SummaryType } from '@/types/types';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { FileText, Plus, Upload, FileSearch, Menu, File } from "lucide-react";
+import { Chat } from "@/lib/db/schema";
+import { SummaryType } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 // Define the types for the props this component receives
 interface CenterSectionProps {
@@ -40,83 +33,80 @@ const CenterSection: React.FC<CenterSectionProps> = ({
   setNewRoomName,
 }) => {
   const [showSummary, setShowSummary] = useState(false);
-  const currentTitle = showSummary ? 'PDF Summary' : 'PDF View';
+  const currentTitle = showSummary ? "PDF Summary" : "PDF View";
   const currentIcon = showSummary ? FileSearch : File;
   const CurrentIcon = currentIcon;
-  const router = useRouter()
+  const router = useRouter();
 
   const handleRoute = (id: number) => {
-    router.push(`${id}/`)
-  }
-
+    router.push(`${id}/`);
+  };
 
   return (
-    <div className='flex-1 min-h-0 flex flex-col bg-background'>
-      <div className='flex-1 min-h-0 p-4'>
-        <Card className='h-full bg-card border-border flex flex-col'>
-          <CardHeader className='flex-shrink-0'>
-            <CardTitle className='flex items-center justify-between text-foreground'>
-              <div className='flex items-center gap-2'>
+    <div className="flex min-h-0 flex-1 flex-col bg-background">
+      <div className="min-h-0 flex-1 p-4">
+        <Card className="flex h-full flex-col border-border bg-card">
+          <CardHeader className="flex-shrink-0">
+            <CardTitle className="flex items-center justify-between text-foreground">
+              <div className="flex items-center gap-2">
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button size='sm' variant='ghost' className='p-2'>
-                      <Menu className='h-5 w-5 text-foreground' />
+                    <Button size="sm" variant="ghost" className="p-2">
+                      <Menu className="size-5 text-foreground" />
                     </Button>
                   </SheetTrigger>
                   <SheetContent
-                    side='left'
-                    className='w-80 bg-card border-border p-0 flex flex-col overflow-hidden'
+                    side="left"
+                    className="flex w-80 flex-col overflow-hidden border-border bg-card p-0"
                   >
-                    <div className='p-4 border-b border-border flex-shrink-0'>
-                      <div className='flex items-center justify-between mb-4 pr-8'>
-                        <h2 className='text-lg font-semibold text-foreground'>
-                          Chat Rooms
-                        </h2>
-                        <Button size='sm' className='btn-primary whitespace-nowrap'>
-                          <Plus className='h-4 w-4 mr-1' />
+                    <div className="flex-shrink-0 border-b border-border p-4">
+                      <div className="mb-4 flex items-center justify-between pr-8">
+                        <h2 className="text-lg font-semibold text-foreground">Chat Rooms</h2>
+                        <Button size="sm" className="btn-primary whitespace-nowrap">
+                          <Plus className="mr-1 size-4" />
                           New
                         </Button>
                       </div>
-                      <div className='flex gap-2'>
+                      <div className="flex gap-2">
                         <Input
-                          placeholder='Room name...'
+                          placeholder="Room name..."
                           value={newRoomName}
                           onChange={(e) => setNewRoomName(e.target.value)}
-                          className='flex-1 bg-input border-border text-foreground'
+                          className="flex-1 border-border bg-input text-foreground"
                         />
                         <Button
-                          size='sm'
-                          variant='outline'
-                          className='border-border hover:bg-muted'
+                          size="sm"
+                          variant="outline"
+                          className="border-border hover:bg-muted"
                         >
-                          <Upload className='h-4 w-4' />
+                          <Upload className="size-4" />
                         </Button>
                       </div>
                     </div>
-                    <ScrollArea className='flex-1 min-h-0 w-full'>
-                      <div className='p-4'>
+                    <ScrollArea className="min-h-0 w-full flex-1">
+                      <div className="p-4">
                         {chats?.map((room) => (
                           <div
                             onClick={() => handleRoute(room.id)}
                             key={room.id}
-                            className={`mb-3 cursor-pointer transition-colors p-3 rounded-lg border  ${
+                            className={`mb-3 cursor-pointer rounded-lg border p-3 transition-colors  ${
                               currentChat?.id === room.id
-                                ? 'border-primary bg-primary/10'
-                                : 'hover:bg-muted/50 border-border'
+                                ? "border-primary bg-primary/10"
+                                : "border-border hover:bg-muted/50"
                             }`}
                           >
-                            <div className='flex items-center gap-2'>
-                              <FileText className='h-4 w-4 text-muted-foreground flex-shrink-0' />
-                              <div className='min-w-0 flex-1'>
-                                <span className='font-medium text-sm text-foreground block truncate'>
+                            <div className="flex items-center gap-2">
+                              <FileText className="size-4 flex-shrink-0 text-muted-foreground" />
+                              <div className="min-w-0 flex-1">
+                                <span className="block truncate text-sm font-medium text-foreground">
                                   {room.pdf_name}
                                 </span>
-                                <span className='text-xs text-muted-foreground'>
+                                <span className="text-xs text-muted-foreground">
                                   {new Date(room.created_at).toLocaleDateString()}
                                 </span>
                               </div>
                               {room.id === currentChat?.id && (
-                                <Badge variant='secondary'>Active</Badge>
+                                <Badge variant="secondary">Active</Badge>
                               )}
                             </div>
                           </div>
@@ -125,32 +115,32 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                     </ScrollArea>
                   </SheetContent>
                 </Sheet>
-                <CurrentIcon className='h-5 w-5' />
+                <CurrentIcon className="size-5" />
                 {currentTitle}
               </div>
-              <div className='flex items-center space-x-2'>
-                <Label htmlFor='summary-toggle' className='text-sm text-foreground'>
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="summary-toggle" className="text-sm text-foreground">
                   PDF View
                 </Label>
                 <Switch
-                  id='summary-toggle'
+                  id="summary-toggle"
                   checked={showSummary}
                   onCheckedChange={setShowSummary}
                 />
-                <Label htmlFor='summary-toggle' className='text-sm text-foreground'>
+                <Label htmlFor="summary-toggle" className="text-sm text-foreground">
                   Summary
                 </Label>
               </div>
             </CardTitle>
           </CardHeader>
-          <CardContent className='flex-1 min-h-0 p-0'>
+          <CardContent className="min-h-0 flex-1 p-0">
             {showSummary ? (
-              <ScrollArea className='h-full p-4'>
+              <ScrollArea className="h-full p-4">
                 {isLoadingSummary && <p>Loading summary...</p>}
-                {summaryError && <p className='text-red-500'>{summaryError}</p>}
+                {summaryError && <p className="text-red-500">{summaryError}</p>}
                 {!isLoadingSummary && !summaryError && summary && (
-                  <div className='prose prose-sm max-w-none'>
-                    <pre className='font-sans text-foreground whitespace-pre-wrap text-sm leading-relaxed'>
+                  <div className="prose prose-sm max-w-none">
+                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
                       {summary.summary_text}
                     </pre>
                   </div>
@@ -161,13 +151,13 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                 {summary?.original_file_url ? (
                   <iframe
                     src={`https://docs.google.com/gview?url=${summary.original_file_url}&embedded=true`}
-                    className='h-full w-full border-0'
-                    title='PDF Viewer'
+                    className="size-full border-0"
+                    title="PDF Viewer"
                   />
                 ) : (
-                  <div className='flex items-center justify-center h-full'>
-                    <p className='text-muted-foreground'>
-                      {currentChat ? 'Loading PDF...' : 'Select a chat to view PDF.'}
+                  <div className="flex h-full items-center justify-center">
+                    <p className="text-muted-foreground">
+                      {currentChat ? "Loading PDF..." : "Select a chat to view PDF."}
                     </p>
                   </div>
                 )}

@@ -1,14 +1,17 @@
 import { getDbConnection } from "@/lib/db/db";
 import { auth } from "@clerk/nextjs/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   const { userId } = await auth();
 
   if (!userId) {
-    return Response.json({
-      success: false,
-      message: "Unauthorized",
-    }, { status: 401 });
+    return Response.json(
+      {
+        success: false,
+        message: "Unauthorized",
+      },
+      { status: 401 },
+    );
   }
 
   try {
@@ -28,10 +31,13 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error occured: ", error);
-    return Response.json({
-      success: false,
-      message: "Failed to fetch summaries",
-      error: (error as Error).message,
-    }, { status: 500 });
+    return Response.json(
+      {
+        success: false,
+        message: "Failed to fetch summaries",
+        error: (error as Error).message,
+      },
+      { status: 500 },
+    );
   }
 }

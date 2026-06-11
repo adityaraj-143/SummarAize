@@ -1,4 +1,4 @@
-import { ClientUploadedFileData } from 'uploadthing/types';
+import { ClientUploadedFileData } from "uploadthing/types";
 
 export type UploadResponse =
   | ClientUploadedFileData<{

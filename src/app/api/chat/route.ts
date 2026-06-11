@@ -1,8 +1,7 @@
-import { getDbConnection } from '@/lib/db/db';
-import { getContext } from '@/lib/findContext';
-import { google } from '@ai-sdk/google';
-import { generateText } from 'ai';
-import { NextResponse } from 'next/server';
+import { getDbConnection } from "@/lib/db/db";
+import { getContext } from "@/lib/findContext";
+import { generateText } from "ai";
+import { NextResponse } from "next/server";
 
 export const maxDuration = 30;
 
@@ -25,7 +24,7 @@ export async function POST(req: Request) {
     `) as ChatFileKey[];
 
     if (_chats.length !== 1) {
-      return NextResponse.json({ error: 'Chat not found' }, { status: 404 });
+      return NextResponse.json({ error: "Chat not found" }, { status: 404 });
     }
 
     // --- 1. Save the user's message to the database ---
@@ -54,22 +53,19 @@ ${context}
 Remember: Your answers must be derived strictly from the text between the START and END CONTEXT BLOCK markers.`;
 
     const userMessages = allmessages.map((message: string) => ({
-      role: 'user' as const,
+      role: "user" as const,
       content: message,
     }));
 
-    const { createGoogleGenerativeAI } = await import('@ai-sdk/google');
+    const { createGoogleGenerativeAI } = await import("@ai-sdk/google");
     const customGoogle = createGoogleGenerativeAI({
-      apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || '',
+      apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || "",
     });
 
     // --- 3. Generate the AI response ---
     const { text } = await generateText({
-      model: customGoogle('gemini-flash-lite-latest'), // Using the quota-safe model
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...userMessages,
-      ],
+      model: customGoogle("gemini-flash-lite-latest"), // Using the quota-safe model
+      messages: [{ role: "system", content: systemPrompt }, ...userMessages],
     });
 
     // --- 4. Save the AI's response to the database ---
@@ -77,20 +73,17 @@ Remember: Your answers must be derived strictly from the text between the START 
       INSERT INTO messages (chat_id, content, role)
       VALUES (${chatId}, ${text}, 'system')
     `;
-    
+
     // --- 5. Return the AI response to the client ---
     return Response.json({
-      role: 'system',
+      role: "system",
       content: text,
     });
-    
   } catch (error) {
     console.error(error);
     return new Response(
-      `Error processing request: ${
-        error instanceof Error ? error.message : 'Unknown error'
-      }`,
-      { status: 500 }
+      `Error processing request: ${error instanceof Error ? error.message : "Unknown error"}`,
+      { status: 500 },
     );
   }
 }

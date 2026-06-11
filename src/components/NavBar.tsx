@@ -14,29 +14,26 @@ const Navbar = () => {
   const isDashboard = pathname === "/dashboard";
 
   return (
-    <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 border-b border-border bg-card/50 backdrop-blur-sm">
       <div className="container mx-auto px-8 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <h1
-              className="text-2xl font-bold gradient-text cursor-pointer hover:opacity-80 transition-opacity"
+              className="gradient-text cursor-pointer text-2xl font-bold transition-opacity hover:opacity-80"
               onClick={() => router.push("/")}
             >
               SummarAIze
             </h1>
             {isDashboard ? (
-              <Badge
-                variant="secondary"
-                className="bg-primary/10 text-primary border-primary/20"
-              >
+              <Badge variant="secondary" className="border-primary/20 bg-primary/10 text-primary">
                 Dashboard
               </Badge>
             ) : (
               <Badge
                 variant="secondary"
-                className="bg-primary/10 text-primary border-primary/20 animate-fade-in"
+                className="animate-fade-in border-primary/20 bg-primary/10 text-primary"
               >
-                <Sparkles className="w-4 h-4 mr-1" />
+                <Sparkles className="mr-1 size-4" />
                 Powered By AI
               </Badge>
             )}
@@ -49,7 +46,7 @@ const Navbar = () => {
                   <Button
                     variant="ghost"
                     onClick={() => router.push("/dashboard")}
-                    className="hover:bg-primary/80 cursor-pointer"
+                    className="cursor-pointer hover:bg-primary/80"
                   >
                     Dashboard
                   </Button>
@@ -60,9 +57,9 @@ const Navbar = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-primary/20 cursor-pointer"
+                      className="cursor-pointer border-primary/20"
                     >
-                      <User className="w-4 h-4 mr-2" />
+                      <User className="mr-2 size-4" />
                       Sign In
                     </Button>
                   </Link>
@@ -78,7 +75,7 @@ const Navbar = () => {
                   Home
                 </Button>
                 <Button className="btn-primary">
-                  <Plus className="w-4 h-4 mr-2" />
+                  <Plus className="mr-2 size-4" />
                   New Summary
                 </Button>
               </>

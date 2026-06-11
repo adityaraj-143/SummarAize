@@ -39,14 +39,14 @@ const FormUpload = () => {
     onSuccess: (data) => {
       if (data.success) {
         toast.success("Chat created!");
-        console.log("chat ID: ", data.chat_id)
+        console.log("chat ID: ", data.chat_id);
         router.push(`/chat/${data.chat_id}`);
       } else {
         toast.error(data.message);
       }
       setIsLoading(false);
     },
-    onError: (error: Error) => {
+    onError: () => {
       toast.error("Chat creation failed.");
       setIsLoading(false);
     },
@@ -142,17 +142,15 @@ const FormUpload = () => {
 
   return (
     <Card
-      className="max-w-2xl card-gradient mx-auto mb-12 animate-scale-in"
+      className="card-gradient animate-scale-in mx-auto mb-12 max-w-2xl"
       style={{ animationDelay: "0.4s" }}
     >
       <CardContent className="px-8 py-3">
-        <h2 className="text-2xl text-center font-semibold mb-6">
-          Upload Your PDF
-        </h2>
+        <h2 className="mb-6 text-center text-2xl font-semibold">Upload Your PDF</h2>
         <form onSubmit={handleSubmit}>
           {/* File Drop Zone */}
           <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
+            className={`rounded-lg border-2 border-dashed p-8 text-center transition-all duration-300 ${
               isDragging
                 ? "border-primary bg-primary/5"
                 : "border-border hover:border-primary/50 hover:bg-primary/5"
@@ -161,13 +159,9 @@ const FormUpload = () => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <Upload className="w-12 h-12 text-primary mx-auto mb-4" />
-            <p className="text-lg font-medium mb-2">
-              Drop your PDF here or click to browse
-            </p>
-            <p className="text-sm text-muted-foreground mb-4">
-              Supports PDF files up to 20MB
-            </p>
+            <Upload className="mx-auto mb-4 size-12 text-primary" />
+            <p className="mb-2 text-lg font-medium">Drop your PDF here or click to browse</p>
+            <p className="mb-4 text-sm text-muted-foreground">Supports PDF files up to 20MB</p>
 
             <input
               type="file"
@@ -187,7 +181,7 @@ const FormUpload = () => {
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="mr-2 size-4 animate-spin" />
                   Processing...
                 </>
               ) : (
@@ -198,10 +192,10 @@ const FormUpload = () => {
 
           {/* Selected File Display */}
           {selectedFile && (
-            <div className="mt-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+            <div className="mt-6 rounded-lg border border-primary/20 bg-primary/5 p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-primary" />
+                  <FileText className="size-5 text-primary" />
                   <div>
                     <p className="font-medium">{selectedFile.name}</p>
                     <p className="text-sm text-muted-foreground">
@@ -216,12 +210,12 @@ const FormUpload = () => {
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <Loader2 className="mr-2 size-4 animate-spin" />
                       Uploading...
                     </>
                   ) : (
                     <>
-                      <Zap className="w-4 h-4 mr-2" />
+                      <Zap className="mr-2 size-4" />
                       Generate Summary
                     </>
                   )}

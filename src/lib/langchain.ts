@@ -5,7 +5,7 @@ export interface PDFPage {
   metadata: {
     loc: { pageNumber: number };
   };
-};
+}
 
 export async function extractPdftext(fileUrl: string) {
   const repsonse = await fetch(fileUrl);
@@ -16,5 +16,4 @@ export async function extractPdftext(fileUrl: string) {
   const loader = new PDFLoader(new Blob([arrayBuffer]));
 
   return (await loader.load()) as PDFPage[];
-
 }

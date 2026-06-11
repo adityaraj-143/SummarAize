@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import HeroSection from "@/components/HeroSection"
-import FormUpload from "@/components/upload/formUpload"
-import Features from "@/components/Features"
+import HeroSection from "@/components/HeroSection";
+import FormUpload from "@/components/upload/formUpload";
+import Features from "@/components/Features";
 
 const Index = () => {
   return (
@@ -19,7 +18,7 @@ const Index = () => {
         <Features />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;

@@ -33,7 +33,7 @@ export default function RootLayout({
       <html lang="en">
         <Providers>
           <body className={`${fonstSans.variable} bg-background antialiased`}>
-              <NavBar />
+            <NavBar />
             {children}
             <Toaster />
           </body>

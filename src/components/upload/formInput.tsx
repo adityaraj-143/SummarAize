@@ -13,20 +13,22 @@ interface FormInputProps {
 const FormInput = ({ onSubmit, isLoading }: FormInputProps) => {
   return (
     <form onSubmit={onSubmit} className=" flex flex-col gap-6 text-white">
-      <div className="flex justify-end items-center gap-1.5 ">
+      <div className="flex items-center justify-end gap-1.5">
         <Input
           id="file"
           name="file"
           type="file"
           accept="application/pdf"
           required
-          className={cn(isLoading ? "opacity-50 cursor-not-allowed file:text-white" : "file:text-white")}
+          className={cn(
+            isLoading ? "opacity-50 cursor-not-allowed file:text-white" : "file:text-white",
+          )}
           disabled={isLoading}
         />
         <Button disabled={isLoading}>
           {isLoading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 size-4 animate-spin" />
               Processing...
             </>
           ) : (
