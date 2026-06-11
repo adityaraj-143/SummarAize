@@ -15,7 +15,7 @@ const eslintConfig = [
       "next/core-web-vitals",
       "next/typescript",
       "prettier",
-      "plugin:tailwindcss/recomended",
+      "plugin:tailwindcss/recommended",
     ],
     plugins: ["prettier"],
     rules: {
