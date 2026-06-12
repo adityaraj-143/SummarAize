@@ -13,26 +13,32 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FileText, Upload, Zap, Loader2 } from "lucide-react";
 import { uploadSchema } from "@/lib/db/schema";
 
+type PdfType = "digital" | "scanned";
+
 const FormUpload = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [pdfType, setPdfType] = useState<PdfType>("digital");
 
   const { mutate } = useMutation({
     mutationFn: async ({
       fileKey,
       fileName,
       fileUrl,
+      pdfType,
     }: {
       fileKey: string;
       fileName: string;
       fileUrl: string;
+      pdfType: PdfType;
     }) => {
       const res = await axios.post("/api/create-chat", {
         fileKey,
         fileName,
         fileUrl,
+        pdfType,
       });
       return res.data;
     },
@@ -127,6 +133,7 @@ const FormUpload = () => {
         fileKey,
         fileName,
         fileUrl,
+        pdfType,
       });
     } catch (error) {
       setIsLoading(false);
@@ -189,6 +196,35 @@ const FormUpload = () => {
               )}
             </Button>
           </div>
+
+          {/* PDF Type Selector */}
+          {selectedFile && (
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <span className="text-sm text-muted-foreground">PDF Type:</span>
+              <button
+                type="button"
+                onClick={() => setPdfType("digital")}
+                className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+                  pdfType === "digital"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                Digital (text + images)
+              </button>
+              <button
+                type="button"
+                onClick={() => setPdfType("scanned")}
+                className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+                  pdfType === "scanned"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                Scanned / Handwritten
+              </button>
+            </div>
+          )}
 
           {/* Selected File Display */}
           {selectedFile && (
