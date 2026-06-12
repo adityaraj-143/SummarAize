@@ -10,6 +10,7 @@ export interface SaveActionType {
   title: string;
   fileName: string;
   fileKey: string;
+  extractionMethod: string;
 }
 
 export async function generatePdfSummary(
@@ -61,6 +62,7 @@ export async function saveToNeon({
   title,
   fileName,
   fileKey,
+  extractionMethod,
 }: SaveActionType) {
   if (!userId) {
     return {
@@ -79,13 +81,15 @@ export async function saveToNeon({
         original_file_url,
         summary_text,
         title,
-        file_name
+        file_name,
+        extraction_method
       ) VALUES (
         ${userId},
         ${fileUrl},
         ${summary},
         ${title},
-        ${fileName}
+        ${fileName},
+        ${extractionMethod}
       )
       RETURNING id;
     ` as { id: number }[];

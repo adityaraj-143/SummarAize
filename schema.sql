@@ -22,6 +22,7 @@ CREATE TABLE pdf_summaries (
     status VARCHAR(50) DEFAULT 'completed',
     title TEXT,
     file_name TEXT,
+    extraction_method TEXT DEFAULT 'digital',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
