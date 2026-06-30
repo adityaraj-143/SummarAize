@@ -45,7 +45,7 @@ export async function POST(req: Request) {
   }
 
   const [summary] = await Promise.all([
-    generatePdfSummary(fileName, fileUrl, docs),
+    generatePdfSummary(fileName, fileUrl, docs, pdfType),
     loadPdfIntoPinecone(docs, fileKey),
   ]);
 

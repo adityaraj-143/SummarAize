@@ -1,5 +1,5 @@
 import { getDbConnection } from "@/lib/db/db";
-import { FetchSummary } from "@/lib/gemini";
+import { FetchSummary, combineSummaries } from "@/lib/gemini";
 import { PDFPage } from "@/lib/langchain";
 import { revalidatePath } from "next/cache";
 
@@ -13,10 +13,42 @@ export interface SaveActionType {
   extractionMethod: string;
 }
 
+const CHUNK_PAGE_THRESHOLD = 20;
+const CHUNK_CHAR_THRESHOLD = 50_000;
+const MAX_CHUNKS = 3;
+
+function shouldChunk(docs: PDFPage[]): boolean {
+  if (docs.length > CHUNK_PAGE_THRESHOLD) return true;
+  const totalChars = docs.reduce((sum, d) => sum + d.pageContent.length, 0);
+  return totalChars > CHUNK_CHAR_THRESHOLD;
+}
+
+function splitIntoChunks(docs: PDFPage[]): PDFPage[][] {
+  const numChunks = Math.min(MAX_CHUNKS, Math.ceil(docs.length / 10));
+  const baseSize = Math.ceil(docs.length / numChunks);
+  const chunks: PDFPage[][] = [];
+  for (let i = 0; i < docs.length; i += baseSize) {
+    if (chunks.length < numChunks - 1) {
+      chunks.push(docs.slice(i, i + baseSize));
+    } else {
+      chunks.push(docs.slice(i));
+      break;
+    }
+  }
+  return chunks;
+}
+
+function formatWithPageMarkers(docs: PDFPage[]): string {
+  return docs
+    .map((doc) => `[Page ${doc.metadata.loc.pageNumber}]\n${doc.pageContent}`)
+    .join("\n\n");
+}
+
 export async function generatePdfSummary(
   fileName: string,
   fileUrl: string,
-  docs: PDFPage[]
+  docs: PDFPage[],
+  pdfType: "digital" | "scanned" = "digital",
 ) {
   if (!fileUrl) {
     return {
@@ -27,8 +59,35 @@ export async function generatePdfSummary(
   }
 
   try {
-    const pdfText = docs.map((doc) => doc.pageContent).join("\n");
-    const summary = await FetchSummary(pdfText);
+    let summary: string | null | undefined;
+
+    if (shouldChunk(docs)) {
+      const chunks = splitIntoChunks(docs);
+      const partialSummaries: string[] = [];
+
+      for (const chunk of chunks) {
+        const chunkText = formatWithPageMarkers(chunk);
+        const partial = await FetchSummary(chunkText, pdfType);
+        if (partial) partialSummaries.push(partial);
+      }
+
+      if (partialSummaries.length === 0) {
+        return {
+          success: false,
+          message: "Failed to generate partial summaries",
+          data: null,
+        };
+      }
+
+      if (partialSummaries.length === 1) {
+        summary = partialSummaries[0];
+      } else {
+        summary = await combineSummaries(partialSummaries, pdfType);
+      }
+    } else {
+      const pdfText = formatWithPageMarkers(docs);
+      summary = await FetchSummary(pdfText, pdfType);
+    }
 
     if (!summary) {
       return {
