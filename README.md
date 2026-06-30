@@ -9,7 +9,8 @@ Upload a PDF, get an AI-generated summary, and ask follow-up questions against t
 ## Features
 
 - **PDF Upload** — Drag-and-drop or click-to-browse upload via UploadThing (up to 32 MB).
-- **AI Summary** — Google Gemini (`gemini-flash-lite-latest`) generates a concise, well-formatted summary of the entire document.
+- **Dual PDF Modes** — Choose **Digital** (text + embedded images) or **Scanned / Handwritten** (full OCR via Gemini 2.5 Flash).
+- **AI Summary** — Google Gemini generates a topic-organized summary with page references. Large PDFs are split intelligently using page-boundary heuristics (ALL-CAPS headings, sentence completion) and merged for thorough coverage.
 - **Chat with Your Document** — Ask questions about the PDF. The system retrieves relevant sections via Pinecone vector search and answers using Gemini.
 - **Semantic Search** — PDF text is chunked, embedded (`gemini-embedding-001`, 2048 dimensions), and stored in Pinecone for context-aware Q&A.
 - **Dashboard** — Browse all your previously summarized documents with search and category filters.
@@ -53,15 +54,18 @@ User Uploads PDF
 
 ### Flow
 
-1. User uploads a PDF via the landing page.
+1. User uploads a PDF via the landing page, selecting **Digital** or **Scanned** mode.
 2. File is stored on **UploadThing**.
-3. The server extracts text using **LangChain's PDFLoader**.
-4. **Concurrently**:
-   - Gemini generates a summary (saved to Neon `pdf_summaries`).
+3. The server extracts text:
+   - **Digital mode**: LangChain PDFLoader extracts text; embedded images are OCR'd via Google Gemini 2.5 Flash.
+   - **Scanned mode**: Full-page OCR via Gemini 2.5 Flash.
+4. Pages are tagged with `[Page N]` markers for topic-boundary detection.
+5. **Concurrently**:
+   - Gemini generates a summary (topic-organized, with page references). Large PDFs are chunked at natural boundaries and merged.
    - PDF text is split, embedded, and upserted into **Pinecone** (namespaced by file key).
-5. A new chat room is created in Neon (`chats` + `messages` tables).
-6. User is redirected to `/chat/{chat_id}` where they can view the summary and ask questions.
-7. Questions are answered by retrieving relevant Pinecone chunks, injecting them as context, and querying Gemini.
+6. A new chat room is created in Neon (`chats` + `messages` tables).
+7. User is redirected to `/chat/{chat_id}` where they can view the summary (rendered as markdown) and ask questions.
+8. Questions are answered by retrieving relevant Pinecone chunks, injecting them as context, and querying Gemini.
 
 ---
 
@@ -78,7 +82,7 @@ User Uploads PDF
 | File Storage | [UploadThing](https://uploadthing.com/) |
 | AI | [Google Gemini](https://ai.google.dev/) (summaries + embeddings + chat) |
 | AI SDK | [Vercel AI SDK](https://sdk.vercel.ai/) (`ai`, `@ai-sdk/google`) |
-| PDF Parsing | [LangChain PDFLoader](https://js.langchain.com/) + `pdf-parse` |
+| PDF Parsing | [LangChain PDFLoader](https://js.langchain.com/) + `pdfjs-dist` (image detection in PDFs) |
 | Client State | [TanStack React Query](https://tanstack.com/query/latest) + [Axios](https://axios-http.com/) |
 | Validation | [Zod](https://zod.dev/) |
 | Toasts | [Sonner](https://sonner.emilkowal.ski/) |
@@ -241,6 +245,7 @@ The included `Dockerfile` uses a multi-stage build with `oven/bun:1` and produce
 │   │   ├── findContext.ts  # Pinecone context retrieval
 │   │   ├── gemini.ts       # Gemini summary generation
 │   │   ├── langchain.ts    # PDF text extraction
+│   │   ├── ocr.ts          # OCR pipeline (image pages + handwritten)
 │   │   └── pinecone.ts     # Pinecone client + vector upsert
 │   ├── middleware.ts        # Clerk auth middleware
 │   ├── types/               # TypeScript interfaces
