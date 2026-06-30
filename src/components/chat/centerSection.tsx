@@ -41,8 +41,8 @@ const CenterSection: React.FC<CenterSectionProps> = ({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col bg-background">
-      <div className="min-h-0 flex-1 p-4">
-        <Card className="flex h-full flex-col border-border bg-card">
+      <div className="min-h-0 flex-1">
+        <Card className="flex h-full flex-col bg-card p-4 border-none rounded-none">
           <Tabs defaultValue="pdf" className="flex h-full flex-col">
             <CardHeader className="flex-shrink-0">
               <CardTitle className="flex items-center justify-between text-foreground">
@@ -87,11 +87,10 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                             <div
                               onClick={() => handleRoute(room.id)}
                               key={room.id}
-                              className={`mb-3 cursor-pointer rounded-lg border p-3 transition-colors  ${
-                                currentChat?.id === room.id
-                                  ? "border-primary bg-primary/10"
-                                  : "border-border hover:bg-muted/50"
-                              }`}
+                              className={`mb-3 cursor-pointer rounded-lg border p-3 transition-colors  ${currentChat?.id === room.id
+                                ? "border-primary bg-primary/10"
+                                : "border-border hover:bg-muted/50"
+                                }`}
                             >
                               <div className="flex items-center gap-2">
                                 <FileText className="size-4 flex-shrink-0 text-muted-foreground" />
