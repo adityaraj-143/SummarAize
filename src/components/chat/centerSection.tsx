@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -139,10 +141,10 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                 {isLoadingSummary && <p>Loading summary...</p>}
                 {summaryError && <p className="text-red-500">{summaryError}</p>}
                 {!isLoadingSummary && !summaryError && summary && (
-                  <div className="prose prose-sm max-w-none">
-                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
+                  <div className="prose prose-sm prose-headings:font-bold prose-headings:text-foreground prose-strong:text-foreground prose-p:text-foreground max-w-none">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {summary.summary_text}
-                    </pre>
+                    </ReactMarkdown>
                   </div>
                 )}
               </ScrollArea>
