@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { FileText, Plus, Upload, Menu } from "lucide-react";
 import { Chat } from "@/lib/db/schema";
 import { SummaryType } from "@/types/types";
@@ -59,7 +59,7 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                     >
                       <div className="flex-shrink-0 border-b border-border p-4">
                         <div className="mb-4 flex items-center justify-between pr-8">
-                          <h2 className="text-lg font-semibold text-foreground">Chat Rooms</h2>
+                          <SheetTitle className="text-lg font-semibold text-foreground">Chat Rooms</SheetTitle>
                           <Button size="sm" className="btn-primary whitespace-nowrap">
                             <Plus className="mr-1 size-4" />
                             New
@@ -82,7 +82,7 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                         </div>
                       </div>
                       <ScrollArea className="min-h-0 w-full flex-1">
-                        <div className="p-4">
+                        <div className="p-4 pr-6">
                           {chats?.map((room) => (
                             <div
                               onClick={() => handleRoute(room.id)}
