@@ -62,8 +62,8 @@ export async function POST(req: Request) {
       extractionMethod,
     });
 
-    if (!result) {
-      return new Response(JSON.stringify({ success: false, message: "Failed to save summary" }), {
+    if (!result.success) {
+      return new Response(JSON.stringify({ success: false, message: result.message }), {
         status: 500,
       });
     }
