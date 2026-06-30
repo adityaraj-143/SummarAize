@@ -43,12 +43,12 @@ const FormUpload = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      if (data.success) {
+      if (data.success && data.chat_id) {
         toast.success("Chat created!");
         console.log("chat ID: ", data.chat_id);
         router.push(`/chat/${data.chat_id}`);
       } else {
-        toast.error(data.message);
+        toast.error(data.message || "Failed to create chat");
       }
       setIsLoading(false);
     },
