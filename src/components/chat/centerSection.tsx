@@ -150,7 +150,7 @@ const CenterSection: React.FC<CenterSectionProps> = ({
               <>
                 {summary?.original_file_url ? (
                   <iframe
-                    src={`https://docs.google.com/gview?url=${summary.original_file_url}&embedded=true`}
+                    src={summary.original_file_url}
                     className="size-full border-0"
                     title="PDF Viewer"
                   />
