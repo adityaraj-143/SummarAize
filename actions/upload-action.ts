@@ -16,6 +16,7 @@ export interface SaveActionType {
 const CHUNK_PAGE_THRESHOLD = 20;
 const CHUNK_CHAR_THRESHOLD = 50_000;
 const MAX_CHUNKS = 3;
+const MIN_PAGES_PER_CHUNK = 10;
 
 function shouldChunk(docs: PDFPage[]): boolean {
   if (docs.length > CHUNK_PAGE_THRESHOLD) return true;
@@ -23,17 +24,77 @@ function shouldChunk(docs: PDFPage[]): boolean {
   return totalChars > CHUNK_CHAR_THRESHOLD;
 }
 
+function isHeadingLine(line: string): boolean {
+  const trimmed = line.trim();
+  const letters = trimmed.replace(/[^a-zA-Z]/g, "");
+  return letters.length >= 3 && letters === letters.toUpperCase();
+}
+
+function endsWithCompleteSentence(text: string): boolean {
+  const trimmed = text.trim();
+  if (trimmed.length === 0) return true;
+  return /[.?!:;]$/.test(trimmed);
+}
+
+function findBestSplitPoints(docs: PDFPage[], numChunks: number): number[] {
+  if (numChunks <= 1) return [];
+
+  const numSplits = numChunks - 1;
+  const totalPages = docs.length;
+  const minGap = MIN_PAGES_PER_CHUNK;
+
+  interface Candidate { index: number; score: number; }
+  const candidates: Candidate[] = [];
+
+  for (let i = 1; i < totalPages; i++) {
+    let score = 0;
+
+    const nextLines = docs[i].pageContent.split("\n");
+    const firstNonEmpty = nextLines.find((l) => l.trim())?.trim() || "";
+    if (isHeadingLine(firstNonEmpty)) score += 100;
+
+    const prevLines = docs[i - 1].pageContent.trim().split("\n");
+    const lastLine = prevLines[prevLines.length - 1]?.trim() || "";
+    if (endsWithCompleteSentence(lastLine)) score += 50;
+
+    candidates.push({ index: i, score });
+  }
+
+  const sorted = [...candidates].sort((a, b) => b.score - a.score);
+  const selected: number[] = [];
+
+  for (const c of sorted) {
+    if (selected.length >= numSplits) break;
+    if (c.score === 0) continue;
+    if (selected.some((s) => Math.abs(s - c.index) < minGap)) continue;
+    selected.push(c.index);
+  }
+
+  selected.sort((a, b) => a - b);
+
+  while (selected.length < numSplits) {
+    const target = selected.length + 1;
+    const ideal = Math.round((target * totalPages) / numChunks);
+    let pos = Math.max(1, Math.min(totalPages - 1, ideal));
+    while (selected.includes(pos)) pos++;
+    if (pos >= totalPages) pos = totalPages - 1;
+    if (pos <= 0) pos = 1;
+    selected.push(pos);
+    selected.sort((a, b) => a - b);
+  }
+
+  return selected;
+}
+
 function splitIntoChunks(docs: PDFPage[]): PDFPage[][] {
-  const numChunks = Math.min(MAX_CHUNKS, Math.ceil(docs.length / 10));
-  const baseSize = Math.ceil(docs.length / numChunks);
+  const numChunks = Math.min(MAX_CHUNKS, Math.ceil(docs.length / MIN_PAGES_PER_CHUNK));
+  const splitPoints = findBestSplitPoints(docs, numChunks);
+
   const chunks: PDFPage[][] = [];
-  for (let i = 0; i < docs.length; i += baseSize) {
-    if (chunks.length < numChunks - 1) {
-      chunks.push(docs.slice(i, i + baseSize));
-    } else {
-      chunks.push(docs.slice(i));
-      break;
-    }
+  let start = 0;
+  for (const point of [...splitPoints, docs.length]) {
+    chunks.push(docs.slice(start, point));
+    start = point;
   }
   return chunks;
 }
