@@ -141,11 +141,11 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                 {isLoadingSummary && <p>Loading summary...</p>}
                 {summaryError && <p className="text-red-500">{summaryError}</p>}
                 {!isLoadingSummary && !summaryError && summary && (
-                  <div className="prose prose-sm prose-headings:font-bold prose-headings:text-foreground prose-headings:mt-8 prose-headings:mb-3 prose-strong:text-foreground prose-p:text-foreground prose-p:my-2 prose-hr:my-6 prose-hr:border-border prose-ul:my-2 prose-li:my-1.5 prose-code:text-foreground prose-code:bg-muted prose-code:px-1 prose-code:rounded max-w-none">
+                  <article className="prose prose-sm dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-foreground prose-headings:mt-10 prose-headings:mb-4 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-strong:text-foreground prose-p:text-foreground prose-p:my-3 prose-p:leading-relaxed prose-hr:my-8 prose-hr:border-border/50 prose-ul:my-4 prose-li:my-2 prose-li:text-foreground prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-muted prose-pre:border prose-pre:border-border">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {summary.summary_text}
                     </ReactMarkdown>
-                  </div>
+                  </article>
                 )}
               </ScrollArea>
             ) : (
