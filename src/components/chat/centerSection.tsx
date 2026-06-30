@@ -141,7 +141,7 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                 {isLoadingSummary && <p>Loading summary...</p>}
                 {summaryError && <p className="text-red-500">{summaryError}</p>}
                 {!isLoadingSummary && !summaryError && summary && (
-                  <div className="prose prose-sm prose-headings:font-bold prose-headings:text-foreground prose-strong:text-foreground prose-p:text-foreground max-w-none">
+                  <div className="prose prose-sm prose-headings:font-bold prose-headings:text-foreground prose-headings:mt-8 prose-headings:mb-3 prose-strong:text-foreground prose-p:text-foreground prose-p:my-2 prose-hr:my-6 prose-hr:border-border prose-ul:my-2 prose-li:my-1.5 prose-code:text-foreground prose-code:bg-muted prose-code:px-1 prose-code:rounded max-w-none">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {summary.summary_text}
                     </ReactMarkdown>
