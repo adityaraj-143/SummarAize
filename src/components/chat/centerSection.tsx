@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
@@ -59,7 +59,9 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                     >
                       <div className="flex-shrink-0 border-b border-border p-4">
                         <div className="mb-4 flex items-center justify-between pr-8">
-                          <SheetTitle className="text-lg font-semibold text-foreground">Chat Rooms</SheetTitle>
+                          <SheetTitle className="text-lg font-semibold text-foreground">
+                            Chat Rooms
+                          </SheetTitle>
                           <Button size="sm" className="btn-primary whitespace-nowrap">
                             <Plus className="mr-1 size-4" />
                             New
@@ -87,10 +89,11 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                             <div
                               onClick={() => handleRoute(room.id)}
                               key={room.id}
-                              className={`mb-3 cursor-pointer rounded-lg border p-3 transition-colors  ${currentChat?.id === room.id
-                                ? "border-primary bg-primary/10"
-                                : "border-border hover:bg-muted/50"
-                                }`}
+                              className={`mb-3 cursor-pointer rounded-lg border p-3 transition-colors  ${
+                                currentChat?.id === room.id
+                                  ? "border-primary bg-primary/10"
+                                  : "border-border hover:bg-muted/50"
+                              }`}
                             >
                               <div className="flex items-center gap-2">
                                 <FileText className="size-4 flex-shrink-0 text-muted-foreground" />
@@ -118,8 +121,12 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                   </span>
                 </div>
                 <TabsList>
-                  <TabsTrigger value="pdf" className="text-xs sm:text-sm">PDF View</TabsTrigger>
-                  <TabsTrigger value="summary" className="text-xs sm:text-sm">Summary</TabsTrigger>
+                  <TabsTrigger value="pdf" className="text-xs sm:text-sm">
+                    PDF View
+                  </TabsTrigger>
+                  <TabsTrigger value="summary" className="text-xs sm:text-sm">
+                    Summary
+                  </TabsTrigger>
                 </TabsList>
               </CardTitle>
             </CardHeader>

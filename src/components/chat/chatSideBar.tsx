@@ -112,7 +112,10 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
         <div className="flex items-center gap-2 overflow-hidden">
           <MessageSquare className="size-5 flex-shrink-0 text-primary" />
           <h3 className="text-lg font-semibold text-foreground whitespace-nowrap">Chat</h3>
-          <Badge variant="secondary" className="flex-shrink-0 border-primary/30 bg-primary/20 text-primary">
+          <Badge
+            variant="secondary"
+            className="flex-shrink-0 border-primary/30 bg-primary/20 text-primary"
+          >
             AI Powered
           </Badge>
         </div>
