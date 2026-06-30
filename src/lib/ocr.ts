@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 
-const OCR_MODEL = "gemini-2.0-flash";
+const OCR_MODEL = "gemini-2.5-flash";
 
 export async function detectImagesInPdf(buffer: ArrayBuffer): Promise<Set<number>> {
   const data = new Uint8Array(buffer);
