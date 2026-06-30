@@ -53,7 +53,8 @@ CREATE TABLE chats (
     pdf_url TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id VARCHAR(256) NOT NULL,
-    file_key TEXT NOT NULL
+    file_key TEXT NOT NULL,
+    summary_id UUID REFERENCES pdf_summaries(id)
 );
 
 -- Messages table
