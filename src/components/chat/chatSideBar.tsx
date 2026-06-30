@@ -105,20 +105,20 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
 
   return (
     <div
-      className="flex flex-col border-l border-border bg-card"
+      className="flex flex-col border-l border-border bg-card overflow-hidden"
       style={{ width: `${chatWidth}px`, minWidth: "300px" }}
     >
-      <div className="mt-1 flex-shrink-0 border-b border-border p-4">
-        <div className="flex items-center gap-2">
-          <MessageSquare className="size-5 text-primary" />
-          <h3 className="text-lg font-semibold text-foreground">Chat</h3>
-          <Badge variant="secondary" className="border-primary/30 bg-primary/20 text-primary">
+      <div className="flex-shrink-0 border-b border-border p-4">
+        <div className="flex items-center gap-2 overflow-hidden">
+          <MessageSquare className="size-5 flex-shrink-0 text-primary" />
+          <h3 className="text-lg font-semibold text-foreground whitespace-nowrap">Chat</h3>
+          <Badge variant="secondary" className="flex-shrink-0 border-primary/30 bg-primary/20 text-primary">
             AI Powered
           </Badge>
         </div>
       </div>
 
-      <ScrollArea className="min-h-0 flex-1 p-4" id="message-container">
+      <ScrollArea className="min-h-0 flex-1 px-4 py-2" id="message-container">
         <div className="space-y-4">
           {messages.map((message) => (
             <div
@@ -126,13 +126,13 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
               className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[80%] rounded-lg px-3 py-2 ${
+                className={`max-w-[85%] rounded-lg px-3 py-2 break-words ${
                   message.role === "user"
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted text-foreground"
                 }`}
               >
-                <p className="whitespace-pre-wrap text-sm">{message.content}</p>
+                <p className="whitespace-pre-wrap break-words text-sm">{message.content}</p>
               </div>
             </div>
           ))}
@@ -146,9 +146,9 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
-            className="flex-1 border-border bg-input text-foreground"
+            className="min-w-0 flex-1 border-border bg-input text-foreground"
           />
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} className="flex-shrink-0">
             {isLoading ? "Thinking..." : <Send className="size-4" />}
           </Button>
         </div>
