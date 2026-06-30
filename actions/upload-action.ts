@@ -124,13 +124,14 @@ export async function generatePdfSummary(
 
     if (shouldChunk(docs)) {
       const chunks = splitIntoChunks(docs);
-      const partialSummaries: string[] = [];
-
-      for (const chunk of chunks) {
+      
+      const partialPromises = chunks.map((chunk) => {
         const chunkText = formatWithPageMarkers(chunk);
-        const partial = await FetchSummary(chunkText, pdfType);
-        if (partial) partialSummaries.push(partial);
-      }
+        return FetchSummary(chunkText, pdfType);
+      });
+      
+      const partialResults = await Promise.all(partialPromises);
+      const partialSummaries = partialResults.filter(Boolean) as string[];
 
       if (partialSummaries.length === 0) {
         return {
