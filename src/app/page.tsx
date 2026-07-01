@@ -10,12 +10,12 @@ const Index = () => {
   return (
     <>
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16 md:py-24">
+      <div className="container mx-auto px-4 py-12 md:py-16">
         <HeroSection />
       </div>
 
       {/* Upload Section */}
-      <div className="container mx-auto px-4">
+      <div id="upload" className="container mx-auto scroll-mt-24 px-4">
         <FormUpload />
       </div>
 

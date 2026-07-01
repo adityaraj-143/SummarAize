@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { FileText, Search, Filter, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,10 +18,7 @@ const fetchSummaries = async (): Promise<(SummaryType & { chat_id: number })[]> 
 
 /* ── Skeleton Card ── */
 const SkeletonCard = ({ delay }: { delay: string }) => (
-  <Card
-    className="animate-fade-in border-border"
-    style={{ animationDelay: delay }}
-  >
+  <Card className="animate-fade-in border-border" style={{ animationDelay: delay }}>
     <CardContent className="p-6">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -41,6 +39,7 @@ const SkeletonCard = ({ delay }: { delay: string }) => (
 );
 
 const Dashboard = () => {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -53,10 +52,6 @@ const Dashboard = () => {
     queryKey: ["summaries"],
     queryFn: fetchSummaries,
   });
-
-  useEffect(() => {
-    fetchSummaries();
-  }, [fetchSummaries]);
 
   const categories = ["All", "Finance", "Technology", "Research", "HR", "Marketing", "Legal"];
 
@@ -79,7 +74,10 @@ const Dashboard = () => {
           </div>
 
           {/* Skeleton search + filters */}
-          <div className="mb-6 flex animate-fade-in flex-col gap-4 sm:flex-row" style={{ animationDelay: "0.1s" }}>
+          <div
+            className="mb-6 flex animate-fade-in flex-col gap-4 sm:flex-row"
+            style={{ animationDelay: "0.1s" }}
+          >
             <div className="skeleton h-10 flex-1 rounded-md" />
             <div className="flex gap-2">
               {[1, 2, 3, 4].map((i) => (
@@ -182,7 +180,10 @@ const Dashboard = () => {
                 ? "Try adjusting your search or filter criteria"
                 : "Upload your first PDF to get started with AI summarization"}
             </p>
-            <Button className="btn-primary transition-transform hover:scale-105 active:scale-95">
+            <Button
+              className="btn-primary transition-transform hover:scale-105 active:scale-95"
+              onClick={() => router.push("/#upload")}
+            >
               <Plus className="mr-2 size-4" />
               Create New Summary
             </Button>

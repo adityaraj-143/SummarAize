@@ -70,11 +70,14 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   onClick={() => router.push("/")}
-                  className="transition-transform hover:scale-105 hover:bg-primary/10 active:scale-95"
+                  className="transition-transform hover:scale-105 active:scale-95"
                 >
                   Home
                 </Button>
-                <Button className="btn-primary transition-transform hover:scale-105 active:scale-95">
+                <Button
+                  className="btn-primary transition-transform hover:scale-105 active:scale-95"
+                  onClick={() => router.push("/#upload")}
+                >
                   <Plus className="mr-2 size-4" />
                   New Summary
                 </Button>

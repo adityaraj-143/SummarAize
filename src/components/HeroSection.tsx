@@ -33,8 +33,7 @@ const HeroSection = () => {
 
       {/* Main heading */}
       <h1 className="relative mb-6 animate-slide-up text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
-        Transform PDFs into{" "}
-        <br className="hidden sm:block" />
+        Transform PDFs into <br className="hidden sm:block" />
         Smart <span className="gradient-text">Summaries</span> with AI
       </h1>
 
@@ -43,13 +42,13 @@ const HeroSection = () => {
         className="relative mx-auto mb-8 max-w-2xl animate-slide-up text-lg text-muted-foreground md:text-xl"
         style={{ animationDelay: "0.15s" }}
       >
-        Upload your PDFs and get concise, accurate summaries in seconds.
-        Then chat with your documents using AI — ask questions, extract insights, and more.
+        Upload your PDFs and get concise, accurate summaries in seconds. Then chat with your
+        documents using AI — ask questions, extract insights, and more.
       </p>
 
       {/* CTA buttons */}
       <div
-        className="relative mb-12 flex animate-slide-up flex-col items-center justify-center gap-4 sm:flex-row"
+        className="relative mb-8 flex animate-slide-up flex-col items-center justify-center gap-4 sm:flex-row"
         style={{ animationDelay: "0.3s" }}
       >
         <SignedOut>
