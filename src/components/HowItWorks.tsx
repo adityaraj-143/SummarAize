@@ -5,21 +5,21 @@ import { Upload, Cpu, MessageSquare } from "lucide-react";
 const steps = [
   {
     icon: Upload,
-    title: "Upload Your PDF",
+    title: "Upload Any PDF",
     description:
-      "Drag & drop or browse to upload any PDF document — research papers, reports, legal docs, and more.",
+      "Drag & drop any PDF — reports, research papers, legal docs, even scanned or handwritten pages. We handle it all.",
   },
   {
     icon: Cpu,
-    title: "AI Analyzes & Summarizes",
+    title: "AI Extracts & Summarizes",
     description:
-      "Our AI reads every page, extracts key insights, and generates a clear, structured summary in seconds.",
+      "Your document is analyzed page by page. Key topics are identified and organized into a structured summary with page references.",
   },
   {
     icon: MessageSquare,
-    title: "Chat & Explore",
+    title: "Chat & Ask Questions",
     description:
-      "Ask questions about your document, dive deeper into specific sections, and get instant AI-powered answers.",
+      "Ask anything about your document. Our AI retrieves the relevant sections and gives you accurate, source-grounded answers.",
   },
 ];
 

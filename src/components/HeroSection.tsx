@@ -33,8 +33,8 @@ const HeroSection = () => {
 
       {/* Main heading */}
       <h1 className="relative mb-6 animate-slide-up text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
-        Transform PDFs into <br className="hidden sm:block" />
-        Smart <span className="gradient-text">Summaries</span> with AI
+        Upload. Summarize. <br className="hidden sm:block" />
+        <span className="gradient-text">Chat</span> with Your PDFs.
       </h1>
 
       {/* Subtitle */}
@@ -42,8 +42,9 @@ const HeroSection = () => {
         className="relative mx-auto mb-8 max-w-2xl animate-slide-up text-lg text-muted-foreground md:text-xl"
         style={{ animationDelay: "0.15s" }}
       >
-        Upload your PDFs and get concise, accurate summaries in seconds. Then chat with your
-        documents using AI — ask questions, extract insights, and more.
+        Upload any PDF — digital, scanned, or handwritten — and get a structured,
+        topic-organized summary in under a minute. Then ask follow-up questions and
+        get AI-powered answers grounded in your actual document.
       </p>
 
       {/* CTA buttons */}
@@ -81,9 +82,9 @@ const HeroSection = () => {
         style={{ animationDelay: "0.45s" }}
       >
         <div className="flex items-center gap-2">
-          <div className="size-2 rounded-full bg-primary animate-pulse-glow" />
+          <FileText className="size-4 text-primary" />
           <span className="text-sm font-medium text-muted-foreground">
-            <span className="text-foreground font-semibold">1,000+</span> PDFs Summarized
+            <span className="text-foreground font-semibold">Scanned & Handwritten</span> Support
           </span>
         </div>
         <div className="hidden h-4 w-px bg-border sm:block" />
@@ -97,7 +98,7 @@ const HeroSection = () => {
         <div className="flex items-center gap-2">
           <Sparkles className="size-4 text-primary" />
           <span className="text-sm font-medium text-muted-foreground">
-            <span className="text-foreground font-semibold">AI-Powered</span> Insights
+            <span className="text-foreground font-semibold">Source-Grounded</span> Answers
           </span>
         </div>
       </div>

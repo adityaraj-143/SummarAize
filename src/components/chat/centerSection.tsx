@@ -101,6 +101,7 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                           <Button
                             size="sm"
                             className="btn-primary whitespace-nowrap transition-transform hover:scale-105 active:scale-95"
+                            onClick={() => router.push("/#upload")}
                           >
                             <Plus className="mr-1 size-4" />
                             New

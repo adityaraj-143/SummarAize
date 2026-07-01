@@ -1,41 +1,41 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, BarChart3, Clock, Shield, Globe, Layers } from "lucide-react";
+import { Sparkles, Search, Zap, PenLine, Library, MessageSquare } from "lucide-react";
 
 const features = [
   {
-    icon: Clock,
-    title: "Lightning Fast",
-    description: "Get comprehensive summaries in under 30 seconds, no matter the document length.",
+    icon: Zap,
+    title: "Fast Summaries",
+    description: "Get structured summaries with page references, typically in under a minute.",
     delay: "0.1s",
   },
   {
     icon: Sparkles,
-    title: "AI Powered",
-    description: "Advanced AI ensures accurate and contextual summaries that capture what matters.",
+    title: "Topic-Organized",
+    description: "AI identifies key topics and organizes your summary by theme — not just a wall of text.",
     delay: "0.2s",
   },
   {
-    icon: BarChart3,
-    title: "Smart Insights",
-    description: "Extract key insights, trends, and actionable information automatically.",
+    icon: Search,
+    title: "Semantic Search",
+    description: "Your document is indexed for semantic search, so you can ask precise questions and get relevant answers.",
     delay: "0.3s",
   },
   {
-    icon: Shield,
-    title: "Secure & Private",
-    description: "Your documents are processed securely and never shared with third parties.",
+    icon: PenLine,
+    title: "Scanned & Handwritten",
+    description: "Full OCR support for scanned pages and handwritten notes, powered by Google Gemini.",
     delay: "0.4s",
   },
   {
-    icon: Globe,
-    title: "Any PDF Format",
-    description: "Works with digital, scanned, and handwritten PDFs using intelligent OCR.",
+    icon: Library,
+    title: "Document Library",
+    description: "All your summaries are saved in your personal dashboard, searchable and filterable by category.",
     delay: "0.5s",
   },
   {
-    icon: Layers,
+    icon: MessageSquare,
     title: "Chat with Docs",
-    description: "Go beyond summaries — ask follow-up questions and explore your documents.",
+    description: "Ask follow-up questions and get answers grounded in your actual document — no hallucinations.",
     delay: "0.6s",
   },
 ];

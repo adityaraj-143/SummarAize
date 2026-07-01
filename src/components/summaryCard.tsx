@@ -60,7 +60,7 @@ const SummaryCard = ({ filteredSummaries }: Props) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 text-primary transition-transform hover:scale-105 active:scale-95"
+                className="hidden h-8 text-primary transition-transform hover:scale-105 active:scale-95"
               >
                 <ArrowRight className="mr-1 size-3" />
                 View Summary
