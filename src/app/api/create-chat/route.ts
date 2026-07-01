@@ -24,7 +24,9 @@ export async function POST(req: Request) {
     docs = await extractPdftext(fileUrl);
   } catch (error) {
     console.error("FATAL ERROR in extractPdftext:", error);
-    return new Response(JSON.stringify({ success: false, message: "PDF extraction failed" }), { status: 500 });
+    return new Response(JSON.stringify({ success: false, message: "PDF extraction failed" }), {
+      status: 500,
+    });
   }
   let extractionMethod = "digital";
   console.log(`Extracted ${docs.length} pages of text`);
