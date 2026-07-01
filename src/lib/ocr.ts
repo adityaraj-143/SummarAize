@@ -4,6 +4,9 @@ const OCR_MODEL = "gemini-2.5-flash";
 
 export async function detectImagesInPdf(buffer: ArrayBuffer): Promise<Set<number>> {
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  // Force Next.js to trace and bundle the worker file for standalone mode
+  await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
+
   const data = new Uint8Array(buffer);
   const doc = await pdfjs.getDocument({ data }).promise;
   const pagesWithImages = new Set<number>();

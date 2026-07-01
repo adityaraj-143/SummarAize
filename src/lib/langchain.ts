@@ -11,6 +11,9 @@ export async function extractPdftext(fileUrl: string): Promise<PDFPage[]> {
 
   // Safely dynamically import pdfjs-dist
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  // Force Next.js to trace and bundle the worker file for standalone mode
+  await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
+
   const data = new Uint8Array(arrayBuffer);
 
   const doc = await pdfjs.getDocument({
