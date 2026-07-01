@@ -218,7 +218,7 @@ const FormUpload = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!checkAuth()) return;
 
     try {
