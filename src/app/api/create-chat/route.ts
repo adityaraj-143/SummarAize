@@ -1,3 +1,4 @@
+import "@/lib/polyfill";
 import { generatePdfSummary, saveToNeon } from "../../../../actions/upload-action";
 import { extractPdftext } from "@/lib/langchain";
 import { loadPdfIntoPinecone } from "@/lib/pinecone";
