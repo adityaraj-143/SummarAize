@@ -1,4 +1,4 @@
-import { Calendar, FileText } from "lucide-react";
+import { Calendar, FileText, ArrowRight, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
@@ -30,13 +30,13 @@ const SummaryCard = ({ filteredSummaries }: Props) => {
       {filteredSummaries.map((summary, index) => (
         <Card
           key={summary.id}
-          className="card-gradient animate-fade-in group cursor-pointer border-border"
+          className="card-gradient group animate-fade-in cursor-pointer border-border transition-all duration-300 hover:scale-[1.02] hover:border-primary/30"
           style={{ animationDelay: `${index * 0.1}s` }}
         >
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
                   <FileText className="size-5 text-primary" />
                 </div>
                 <Badge variant="outline" className="border-primary/20 text-xs text-primary">
@@ -56,17 +56,22 @@ const SummaryCard = ({ filteredSummaries }: Props) => {
             <p className="mb-4 line-clamp-3 text-sm text-muted-foreground">
               {summary.summary_text}
             </p>
-            <div className="flex items-center justify-end text-xs text-muted-foreground">
-              {/* <span>{summary.pages} pages</span> */}
-              <Button variant="ghost" size="sm" className="h-8 text-primary">
+            <div className="flex items-center justify-end gap-2 text-xs text-muted-foreground">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 text-primary transition-transform hover:scale-105 hover:bg-primary/10 active:scale-95"
+              >
+                <ArrowRight className="mr-1 size-3" />
                 View Summary
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 text-primary"
+                className="h-8 text-primary transition-transform hover:scale-105 hover:bg-primary/10 active:scale-95"
                 onClick={() => handleRoute(summary?.chat_id)}
               >
+                <MessageSquare className="mr-1 size-3" />
                 Open Chat
               </Button>
             </div>

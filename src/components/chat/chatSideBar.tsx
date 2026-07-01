@@ -15,6 +15,26 @@ export interface Message {
   content: string;
 }
 
+/* ── Typing Indicator ── */
+const TypingIndicator = () => (
+  <div className="flex justify-start">
+    <div className="flex items-center gap-1.5 rounded-lg bg-muted px-4 py-3">
+      <div
+        className="size-1.5 rounded-full bg-muted-foreground animate-bounce-dot"
+        style={{ animationDelay: "0s" }}
+      />
+      <div
+        className="size-1.5 rounded-full bg-muted-foreground animate-bounce-dot"
+        style={{ animationDelay: "0.16s" }}
+      />
+      <div
+        className="size-1.5 rounded-full bg-muted-foreground animate-bounce-dot"
+        style={{ animationDelay: "0.32s" }}
+      />
+    </div>
+  </div>
+);
+
 interface ChatSideBarProps {
   chatWidth: number;
   chatId: number;
@@ -105,13 +125,13 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
 
   return (
     <div
-      className="flex flex-col border-l border-border bg-card overflow-hidden"
+      className="flex flex-col overflow-hidden border-l border-border bg-card"
       style={{ width: `${chatWidth}px`, minWidth: "300px" }}
     >
       <div className="flex-shrink-0 border-b border-border p-4">
         <div className="flex items-center gap-2 overflow-hidden">
           <MessageSquare className="size-5 flex-shrink-0 text-primary" />
-          <h3 className="text-lg font-semibold text-foreground whitespace-nowrap">Chat</h3>
+          <h3 className="whitespace-nowrap text-lg font-semibold text-foreground">Chat</h3>
           <Badge
             variant="secondary"
             className="flex-shrink-0 border-primary/30 bg-primary/20 text-primary"
@@ -123,10 +143,21 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
 
       <ScrollArea className="min-h-0 flex-1 px-4 py-2" id="message-container">
         <div className="space-y-4">
+          {messages.length === 0 && !isLoading && (
+            <div className="flex animate-fade-in flex-col items-center justify-center py-12 text-center">
+              <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-primary/10">
+                <MessageSquare className="size-5 text-primary" />
+              </div>
+              <p className="mb-1 text-sm font-medium text-foreground">Start a conversation</p>
+              <p className="text-xs text-muted-foreground">
+                Ask questions about your document
+              </p>
+            </div>
+          )}
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+              className={`animate-slide-up flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
                 className={`max-w-[85%] rounded-lg px-3 py-2 break-words ${
@@ -139,20 +170,25 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
               </div>
             </div>
           ))}
+          {isLoading && <TypingIndicator />}
         </div>
       </ScrollArea>
 
       <form onSubmit={handleSubmit} className="flex-shrink-0 border-t border-border p-4">
         <div className="flex gap-2">
           <Input
-            placeholder="Enter query..."
+            placeholder="Ask about your document..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
             className="min-w-0 flex-1 border-border bg-input text-foreground"
           />
-          <Button type="submit" disabled={isLoading} className="flex-shrink-0">
-            {isLoading ? "Thinking..." : <Send className="size-4" />}
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="flex-shrink-0 transition-transform hover:scale-105 active:scale-95"
+          >
+            <Send className="size-4" />
           </Button>
         </div>
       </form>

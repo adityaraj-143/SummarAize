@@ -57,7 +57,7 @@ const Navbar = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="cursor-pointer border-primary/20"
+                      className="cursor-pointer border-primary/20 transition-transform hover:scale-105 active:scale-95"
                     >
                       <User className="mr-2 size-4" />
                       Sign Up
@@ -70,7 +70,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   onClick={() => router.push("/")}
-                  className="hover:bg-primary/10"
+                  className="transition-transform hover:scale-105 hover:bg-primary/10 active:scale-95"
                 >
                   Home
                 </Button>
