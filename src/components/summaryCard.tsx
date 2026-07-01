@@ -13,7 +13,7 @@ const SummaryCard = ({ filteredSummaries }: Props) => {
   const router = useRouter();
 
   const handleRoute = (id: number) => {
-    router.push(`chat/${id}`);
+    router.push(`/chat/${id}`);
   };
 
   const formatDate = (dateString: string) => {
