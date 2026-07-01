@@ -4,6 +4,7 @@ import type React from "react";
 import { toast } from "sonner";
 import { useUploadThing } from "@/utils/uploadthing";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { useRef, useState } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -112,6 +113,7 @@ const ProgressSteps = ({ currentStep }: { currentStep: UploadStep }) => {
 /* ── Main FormUpload Component ── */
 const FormUpload = () => {
   const router = useRouter();
+  const { isSignedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -170,7 +172,22 @@ const FormUpload = () => {
     },
   });
 
+  const checkAuth = () => {
+    if (!isSignedIn) {
+      toast.error("Authentication required", {
+        description: "Please sign in or create an account to upload PDFs.",
+      });
+      setTimeout(() => router.push("/sign-up"), 1500);
+      return false;
+    }
+    return true;
+  };
+
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!checkAuth()) {
+      event.target.value = "";
+      return;
+    }
     const file = event.target.files?.[0];
     if (file && file.type === "application/pdf") {
       setSelectedFile(file);
@@ -191,6 +208,8 @@ const FormUpload = () => {
     event.preventDefault();
     setIsDragging(false);
 
+    if (!checkAuth()) return;
+
     const file = event.dataTransfer.files?.[0];
     if (file && file.type === "application/pdf") {
       setSelectedFile(file);
@@ -199,6 +218,9 @@ const FormUpload = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (!checkAuth()) return;
+
     try {
       setIsLoading(true);
 
@@ -249,6 +271,7 @@ const FormUpload = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
+    if (!checkAuth()) return;
     inputRef.current?.click();
   };
 
