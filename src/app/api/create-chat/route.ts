@@ -16,15 +16,20 @@ export async function POST(req: Request) {
 
   const body = await req.json();
   const { fileKey, fileName, fileUrl, pdfType } = body;
+  console.log("create-chat triggered for:", { fileName, pdfType, fileUrl });
 
+  console.log("Extracting PDF text...");
   let docs = await extractPdftext(fileUrl);
   let extractionMethod = "digital";
+  console.log(`Extracted ${docs.length} pages of text`);
 
   if (pdfType === "digital") {
     const response = await fetch(fileUrl);
     const pdfBuffer = await response.arrayBuffer();
 
+    console.log("Detecting images...");
     const pagesWithImages = await detectImagesInPdf(pdfBuffer);
+    console.log(`Found images on ${pagesWithImages.size} pages`);
 
     if (pagesWithImages.size > 0) {
       const ocrTexts = await ocrImagePages(pdfBuffer, pagesWithImages);
@@ -45,10 +50,12 @@ export async function POST(req: Request) {
     extractionMethod = "ocr_handwritten";
   }
 
+  console.log("Generating summary and loading to Pinecone...");
   const [summary] = await Promise.all([
     generatePdfSummary(fileName, fileUrl, docs, pdfType),
     loadPdfIntoPinecone(docs, fileKey),
   ]);
+  console.log("Summary generation completed:", summary?.success);
 
   const { data } = summary;
 
@@ -62,6 +69,8 @@ export async function POST(req: Request) {
       fileKey,
       extractionMethod,
     });
+
+    console.log("Save to Neon completed:", result.success);
 
     if (!result.success) {
       return new Response(JSON.stringify({ success: false, message: result.message }), {
