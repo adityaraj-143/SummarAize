@@ -43,7 +43,10 @@ function findBestSplitPoints(docs: PDFPage[], numChunks: number): number[] {
   const totalPages = docs.length;
   const minGap = MIN_PAGES_PER_CHUNK;
 
-  interface Candidate { index: number; score: number; }
+  interface Candidate {
+    index: number;
+    score: number;
+  }
   const candidates: Candidate[] = [];
 
   for (let i = 1; i < totalPages; i++) {
@@ -124,12 +127,12 @@ export async function generatePdfSummary(
 
     if (shouldChunk(docs)) {
       const chunks = splitIntoChunks(docs);
-      
+
       const partialPromises = chunks.map((chunk) => {
         const chunkText = formatWithPageMarkers(chunk);
         return FetchSummary(chunkText, pdfType);
       });
-      
+
       const partialResults = await Promise.all(partialPromises);
       const partialSummaries = partialResults.filter(Boolean) as string[];
 
@@ -194,9 +197,9 @@ export async function saveToNeon({
 
   try {
     const sql = await getDbConnection();
-    
+
     // Save PDF summary and assert return type
-    const summaryResult = await sql`
+    const summaryResult = (await sql`
       INSERT INTO pdf_summaries (
         user_id,
         original_file_url,
@@ -213,7 +216,7 @@ export async function saveToNeon({
         ${extractionMethod}
       )
       RETURNING id;
-    ` as { id: number }[];
+    `) as { id: number }[];
 
     const summaryId = summaryResult[0]?.id;
     console.log("summaryId: ", summaryId);
@@ -226,7 +229,7 @@ export async function saveToNeon({
     }
 
     // Save chat info and link to summary, assert return type
-    const chatResult = await sql`
+    const chatResult = (await sql`
       INSERT INTO chats (
         user_id,
         pdf_url,
@@ -241,7 +244,7 @@ export async function saveToNeon({
         ${summaryId}
       )
       RETURNING id;
-    ` as { id: number }[];
+    `) as { id: number }[];
 
     console.log("chatResult: ", chatResult);
     if (!chatResult[0]?.id) {
@@ -260,8 +263,7 @@ export async function saveToNeon({
     console.error("Error saving summary and chat info", error);
     return {
       success: false,
-      message:
-        error instanceof Error ? error.message : "Unknown error occurred",
+      message: error instanceof Error ? error.message : "Unknown error occurred",
     };
   }
 }

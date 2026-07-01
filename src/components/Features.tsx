@@ -5,43 +5,37 @@ const features = [
   {
     icon: Clock,
     title: "Lightning Fast",
-    description:
-      "Get comprehensive summaries in under 30 seconds, no matter the document length.",
+    description: "Get comprehensive summaries in under 30 seconds, no matter the document length.",
     delay: "0.1s",
   },
   {
     icon: Sparkles,
     title: "AI Powered",
-    description:
-      "Advanced AI ensures accurate and contextual summaries that capture what matters.",
+    description: "Advanced AI ensures accurate and contextual summaries that capture what matters.",
     delay: "0.2s",
   },
   {
     icon: BarChart3,
     title: "Smart Insights",
-    description:
-      "Extract key insights, trends, and actionable information automatically.",
+    description: "Extract key insights, trends, and actionable information automatically.",
     delay: "0.3s",
   },
   {
     icon: Shield,
     title: "Secure & Private",
-    description:
-      "Your documents are processed securely and never shared with third parties.",
+    description: "Your documents are processed securely and never shared with third parties.",
     delay: "0.4s",
   },
   {
     icon: Globe,
     title: "Any PDF Format",
-    description:
-      "Works with digital, scanned, and handwritten PDFs using intelligent OCR.",
+    description: "Works with digital, scanned, and handwritten PDFs using intelligent OCR.",
     delay: "0.5s",
   },
   {
     icon: Layers,
     title: "Chat with Docs",
-    description:
-      "Go beyond summaries — ask follow-up questions and explore your documents.",
+    description: "Go beyond summaries — ask follow-up questions and explore your documents.",
     delay: "0.6s",
   },
 ];

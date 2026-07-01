@@ -8,9 +8,7 @@ const Footer = () => {
           {/* Logo + tagline */}
           <div className="flex flex-col items-center gap-2 sm:items-start">
             <span className="gradient-text text-xl font-bold">SummarAIze</span>
-            <p className="text-sm text-muted-foreground">
-              AI-powered PDF summarization & chat
-            </p>
+            <p className="text-sm text-muted-foreground">AI-powered PDF summarization & chat</p>
           </div>
 
           {/* Badge */}

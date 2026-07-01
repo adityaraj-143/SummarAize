@@ -71,22 +71,22 @@ User Uploads PDF
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | [Next.js 15](https://nextjs.org/) (Turbopack) |
-| Language | [TypeScript](https://www.typescriptlang.org/) (strict mode) |
-| Styling | [Tailwind CSS 3](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) + [Lucide](https://lucide.dev/) |
-| Auth | [Clerk](https://clerk.com/) |
-| Database | [Neon](https://neon.tech/) (serverless PostgreSQL) |
-| Vector DB | [Pinecone](https://www.pinecone.io/) |
-| File Storage | [UploadThing](https://uploadthing.com/) |
-| AI | [Google Gemini](https://ai.google.dev/) (summaries + embeddings + chat) |
-| AI SDK | [Vercel AI SDK](https://sdk.vercel.ai/) (`ai`, `@ai-sdk/google`) |
-| PDF Parsing | [LangChain PDFLoader](https://js.langchain.com/) + `pdfjs-dist` (image detection in PDFs) |
-| Client State | [TanStack React Query](https://tanstack.com/query/latest) + [Axios](https://axios-http.com/) |
-| Validation | [Zod](https://zod.dev/) |
-| Toasts | [Sonner](https://sonner.emilkowal.ski/) |
-| Deployment | Docker + AWS ECR + EC2 (GitHub Actions CI/CD) |
+| Layer        | Technology                                                                                                       |
+| ------------ | ---------------------------------------------------------------------------------------------------------------- |
+| Framework    | [Next.js 15](https://nextjs.org/) (Turbopack)                                                                    |
+| Language     | [TypeScript](https://www.typescriptlang.org/) (strict mode)                                                      |
+| Styling      | [Tailwind CSS 3](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) + [Lucide](https://lucide.dev/) |
+| Auth         | [Clerk](https://clerk.com/)                                                                                      |
+| Database     | [Neon](https://neon.tech/) (serverless PostgreSQL)                                                               |
+| Vector DB    | [Pinecone](https://www.pinecone.io/)                                                                             |
+| File Storage | [UploadThing](https://uploadthing.com/)                                                                          |
+| AI           | [Google Gemini](https://ai.google.dev/) (summaries + embeddings + chat)                                          |
+| AI SDK       | [Vercel AI SDK](https://sdk.vercel.ai/) (`ai`, `@ai-sdk/google`)                                                 |
+| PDF Parsing  | [LangChain PDFLoader](https://js.langchain.com/) + `pdfjs-dist` (image detection in PDFs)                        |
+| Client State | [TanStack React Query](https://tanstack.com/query/latest) + [Axios](https://axios-http.com/)                     |
+| Validation   | [Zod](https://zod.dev/)                                                                                          |
+| Toasts       | [Sonner](https://sonner.emilkowal.ski/)                                                                          |
+| Deployment   | Docker + AWS ECR + EC2 (GitHub Actions CI/CD)                                                                    |
 
 ---
 
@@ -196,15 +196,15 @@ The included `Dockerfile` uses a multi-stage build with `oven/bun:1` and produce
 
 ## API Routes
 
-| Route | Method | Auth | Description |
-|---|---|---|---|
-| `/api/uploadthing` | GET, POST | Yes | UploadThing file upload handler |
-| `/api/create-chat` | POST | Yes | Process uploaded PDF: extract text, generate summary, index into Pinecone, create chat room |
-| `/api/chat` | POST | Yes | Send a message, retrieve context, get AI response |
-| `/api/get-chatroom` | GET | Yes | List all chat rooms for the current user |
-| `/api/get-messages` | POST | Yes | Get all messages for a given chat |
-| `/api/summaries` | GET | Yes | List all PDF summaries for the current user |
-| `/api/pdf-summary` | GET | Yes | Fetch a single summary by `summary_id` |
+| Route               | Method    | Auth | Description                                                                                 |
+| ------------------- | --------- | ---- | ------------------------------------------------------------------------------------------- |
+| `/api/uploadthing`  | GET, POST | Yes  | UploadThing file upload handler                                                             |
+| `/api/create-chat`  | POST      | Yes  | Process uploaded PDF: extract text, generate summary, index into Pinecone, create chat room |
+| `/api/chat`         | POST      | Yes  | Send a message, retrieve context, get AI response                                           |
+| `/api/get-chatroom` | GET       | Yes  | List all chat rooms for the current user                                                    |
+| `/api/get-messages` | POST      | Yes  | Get all messages for a given chat                                                           |
+| `/api/summaries`    | GET       | Yes  | List all PDF summaries for the current user                                                 |
+| `/api/pdf-summary`  | GET       | Yes  | Fetch a single summary by `summary_id`                                                      |
 
 ---
 

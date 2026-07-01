@@ -20,8 +20,16 @@ type UploadStep = "idle" | "uploading" | "analyzing" | "generating";
 const ProgressSteps = ({ currentStep }: { currentStep: UploadStep }) => {
   const steps = [
     { key: "uploading", label: "Uploading PDF", description: "Sending your file securely..." },
-    { key: "analyzing", label: "Analyzing Document", description: "Reading and parsing content..." },
-    { key: "generating", label: "Generating Summary", description: "AI is creating your summary..." },
+    {
+      key: "analyzing",
+      label: "Analyzing Document",
+      description: "Reading and parsing content...",
+    },
+    {
+      key: "generating",
+      label: "Generating Summary",
+      description: "AI is creating your summary...",
+    },
   ] as const;
 
   const stepOrder = ["uploading", "analyzing", "generating"] as const;
@@ -93,11 +101,7 @@ const ProgressSteps = ({ currentStep }: { currentStep: UploadStep }) => {
           className="h-full rounded-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-700 ease-out"
           style={{
             width:
-              currentStep === "uploading"
-                ? "20%"
-                : currentStep === "analyzing"
-                  ? "55%"
-                  : "85%",
+              currentStep === "uploading" ? "20%" : currentStep === "analyzing" ? "55%" : "85%",
           }}
         />
       </div>

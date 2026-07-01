@@ -149,9 +149,7 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
                 <MessageSquare className="size-5 text-primary" />
               </div>
               <p className="mb-1 text-sm font-medium text-foreground">Start a conversation</p>
-              <p className="text-xs text-muted-foreground">
-                Ask questions about your document
-              </p>
+              <p className="text-xs text-muted-foreground">Ask questions about your document</p>
             </div>
           )}
           {messages.map((message) => (

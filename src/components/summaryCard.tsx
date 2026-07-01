@@ -60,7 +60,7 @@ const SummaryCard = ({ filteredSummaries }: Props) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 text-primary transition-transform hover:scale-105 hover:bg-primary/10 active:scale-95"
+                className="h-8 text-primary transition-transform hover:scale-105 active:scale-95"
               >
                 <ArrowRight className="mr-1 size-3" />
                 View Summary
@@ -68,7 +68,7 @@ const SummaryCard = ({ filteredSummaries }: Props) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 text-primary transition-transform hover:scale-105 hover:bg-primary/10 active:scale-95"
+                className="h-8 text-primary transition-transform hover:scale-105 active:scale-95"
                 onClick={() => handleRoute(summary?.chat_id)}
               >
                 <MessageSquare className="mr-1 size-3" />

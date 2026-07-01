@@ -4,10 +4,10 @@ import type { Config } from "tailwindcss";
 const config = withUt({
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   theme: {
     container: {
@@ -83,7 +83,7 @@ const config = withUt({
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
-        "float": {
+        float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-8px)" },
         },
@@ -91,7 +91,7 @@ const config = withUt({
           "0%, 100%": { boxShadow: "0 0 8px hsla(187, 100%, 50%, 0.15)" },
           "50%": { boxShadow: "0 0 20px hsla(187, 100%, 50%, 0.35)" },
         },
-        "shimmer": {
+        shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
@@ -115,9 +115,9 @@ const config = withUt({
         "slide-down": "slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) both",
         "scale-in": "scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both",
         "fade-in": "fade-in 0.5s ease both",
-        "float": "float 3s ease-in-out infinite",
+        float: "float 3s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
-        "shimmer": "shimmer 1.5s ease-in-out infinite",
+        shimmer: "shimmer 1.5s ease-in-out infinite",
         "bounce-dot": "bounce-dot 1.4s infinite ease-in-out both",
         "progress-fill": "progress-fill 2s ease-in-out forwards",
         "glow-ring": "glow-ring 2s ease-in-out infinite",

@@ -187,9 +187,7 @@ const CenterSection: React.FC<CenterSectionProps> = ({
                         <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-muted">
                           <FileText className="size-6 text-muted-foreground" />
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          Select a chat to view PDF.
-                        </p>
+                        <p className="text-sm text-muted-foreground">Select a chat to view PDF.</p>
                       </div>
                     )}
                   </div>

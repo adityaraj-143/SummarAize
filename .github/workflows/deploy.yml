@@ -79,21 +79,21 @@ jobs:
           envs: IMAGE_TAG,ECR_REGISTRY,ECR_REPOSITORY,AWS_REGION
           script: |
             set -e
-            
+
             # Login to ECR 
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
-            
+
             cd ~/app
 
             export IMAGE_TAG=$IMAGE_TAG
             export ECR_REGISTRY=$ECR_REGISTRY
             export ECR_REPOSITORY=$ECR_REPOSITORY
-            
+
             # Pull the exact commit SHA image
             docker compose pull
-            
+
             # Recreate the container with the new image (idempotent)
             docker compose up -d
-            
+
             # Clean up old unused images to save disk space
             docker image prune -af --filter "until=24h"
