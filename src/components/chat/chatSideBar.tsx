@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, FormEvent, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -164,7 +166,13 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({ chatWidth, chatId }) => {
                     : "bg-muted text-foreground"
                 }`}
               >
-                <p className="whitespace-pre-wrap break-words text-sm">{message.content}</p>
+                {message.role === "user" ? (
+                  <p className="whitespace-pre-wrap break-words text-sm">{message.content}</p>
+                ) : (
+                  <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:my-1 prose-pre:bg-background/50 prose-pre:p-2 prose-pre:border-border prose-ul:my-1 prose-li:my-0">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+                  </div>
+                )}
               </div>
             </div>
           ))}
