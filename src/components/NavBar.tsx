@@ -44,9 +44,9 @@ const Navbar = () => {
               <>
                 <SignedIn>
                   <Button
-                    variant="ghost"
+                    variant="default"
                     onClick={() => router.push("/dashboard")}
-                    className="cursor-pointer hover:bg-primary/80"
+                    className="cursor-pointer bg-primary/80 transition-transform hover:scale-105 hover:bg-primary/80 active:scale-95"
                   >
                     Dashboard
                   </Button>
@@ -60,7 +60,7 @@ const Navbar = () => {
                       className="cursor-pointer border-primary/20"
                     >
                       <User className="mr-2 size-4" />
-                      Sign In
+                      Sign Up
                     </Button>
                   </Link>
                 </SignedOut>
@@ -74,7 +74,7 @@ const Navbar = () => {
                 >
                   Home
                 </Button>
-                <Button className="btn-primary">
+                <Button className="btn-primary transition-transform hover:scale-105 active:scale-95">
                   <Plus className="mr-2 size-4" />
                   New Summary
                 </Button>

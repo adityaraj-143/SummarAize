@@ -4,7 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
-import { shadcn } from "@clerk/ui/themes";
+import { dark } from "@clerk/themes";
 import Providers from "@/lib/context/Chatcontext";
 
 const fonstSans = FontSans({
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <ClerkProvider
       appearance={{
-        baseTheme: shadcn,
+        baseTheme: dark,
       }}
     >
       <html lang="en">
